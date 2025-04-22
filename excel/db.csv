@@ -1,0 +1,11 @@
+id,name,age,date_of_join,date_of_birth,job_role,phone_number,ctc,email,secondary_phone_number
+1,Rubika,25,NULL,1997-01-25,Developer,1234567890,3,NULL,1234567891
+2,Rubika,25,NULL,1995-03-10,Developer,1234567890,3,NULL,1234567891
+3,Reka,25,NULL,1997-02-11,Developer,1234567890,2,NULL,1234567891
+4,Rubika,25,2025-04-21,0997-01-02,Developer,1234567890,3,25rubikaj@gmail.com,1234567891
+5,Rubika,25,2025-04-21,1994-02-01,Developer,1234567890,3,25rubikaj@gmail.com,1234567891
+6,Rubika,25,2025-04-21,1997-02-01,Developer,1234567890,3,25rubikaj@gmail.com,1234567891
+7,Rubika,25,2025-04-21,1997-02-01,Developer,1234567890,3,25rubikaj@gmail.com,1234567891
+8,Rubika,25,2025-04-21,1997-02-01,Developer,1234567890,3,25rubikaj@gmail.com,1234567891
+9,Reka,25,2025-04-21,1994-02-02,Developer,1234567890,5,balmirafoods@gmail.com,1234567891
+10,Reka,25,2025-04-21,1994-02-02,Developer,1234567890,5,balmirafoods@gmail.com,1234567891

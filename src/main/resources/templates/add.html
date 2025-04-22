@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HRMS Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex bg-green-100 h-screen font-sans">
+<!-- Sidebar -->
+<aside class="w-64 bg-white shadow-md p-5 flex flex-col justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-green-600">StaffX</h1>
+    <nav class="mt-5 space-y-2">
+      <p class="text-gray-400 uppercase text-xs">General</p>
+      <a href="/index" class="flex items-center p-2 text-green-600 bg-green-100 rounded">
+        <span class="mr-2">🏠</span> Dashboard
+      </a>
+      <a href="/employee" class="flex items-center p-2 text-gray-700 hover:bg-green-100 rounded">
+        <span class="mr-2">👨‍💼</span> Employee
+      </a>
+    </nav>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="flex-1 p-6 min-h-screen">
+  <!-- Add Employee Section -->
+  <section class="bg-white p-6 rounded shadow-md w-full h-full mb-8">
+    <h2 class="text-lg font-semibold mb-4">Add Employee</h2>
+    <form id="employeeForm" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <input type="text" id="name" name="name" placeholder="Name" class="border p-2 rounded">
+      <input type="text" id="email" name="email" placeholder="Email" class="border p-2 rounded">
+      <input type="text" id="designation" name="designation" placeholder="Designation" class="border p-2 rounded">
+      <input type="text" id="age" name="age" placeholder="Age" class="border p-2 rounded">
+      <input type="text" id="department" name="department" placeholder="Department" class="border p-2 rounded">
+      <input type="date" id="date" name="dateOfBirth" placeholder="DOB" class="border p-2 rounded">
+      <input type="date" id="date1" name="dateOfJoin" placeholder="DOJ" class="border p-2 rounded">
+      <input type="text" id="primaryphone" name="primaryPhone" placeholder="Primary Phone" class="border p-2 rounded">
+      <input type="text" id="secondaryphone" name="secondaryPhone" placeholder="Secondary Phone" class="border p-2 rounded">
+      <input type="text" id="address" name="address" placeholder="Address" class="border p-2 rounded">
+      <input type="text" id="City" name="city" placeholder="City" class="border p-2 rounded">
+      <input type="text" id="State" name="state" placeholder="State" class="border p-2 rounded">
+      <input type="text" id="empDegree" name="degree" placeholder="Highest Degree" class="border p-2 rounded">
+      <input type="text" id="empPrevEmployment" name="previousEmployment" placeholder="Company Name" class="border p-2 rounded">
+      <input type="number" id="empCtc" name="ctc" placeholder="Current CTC" class="border p-2 rounded">
+      <input type="file" id="empCertifications" name="file" multiple accept=".pdf,.doc,.docx" class="border p-2 rounded">
+      <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Add Employee</button>
+    </form>
+  </section>
+</main>
+
+<script>
+  // JavaScript to handle form submission using fetch
+  document.getElementById("employeeForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // Prevent the form from submitting the usual way
+
+    // Create a FormData object to send employee data and the file
+    const formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+     formData.append("email", document.getElementById("email").value);
+    formData.append("age", document.getElementById("age").value);
+    formData.append("designation", document.getElementById("designation").value);
+    formData.append("department", document.getElementById("department").value);
+    formData.append("dateOfBirth", document.getElementById("date").value);
+    formData.append("primaryPhone", document.getElementById("primaryphone").value);
+    formData.append("secondaryPhone", document.getElementById("secondaryphone").value);
+    formData.append("address", document.getElementById("address").value);
+    formData.append("city", document.getElementById("City").value);
+    formData.append("state", document.getElementById("State").value);
+    formData.append("degree", document.getElementById("empDegree").value);
+    formData.append("previousEmployment", document.getElementById("empPrevEmployment").value);
+    formData.append("ctc", document.getElementById("empCtc").value);
+    formData.append("file", document.getElementById("empCertifications").files[0]); // Only appending the first file
+
+    // Send the data using fetch
+    fetch("/addEmployee", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("Employee added successfully!");
+        window.location.href = "/employee"; // Redirect to employee list page
+      } else {
+        alert("Failed to add employee.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("An error occurred while adding the employee.");
+    });
+  });
+</script>
+</body>
+</html>

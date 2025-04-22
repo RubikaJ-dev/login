@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Employee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex bg-green-100 h-screen font-sans">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-md p-5 flex flex-col justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-green-600">StaffX</h1>
+      <nav class="mt-5 space-y-2">
+        <p class="text-gray-400 uppercase text-xs">General</p>
+        <a href="/index" class="flex items-center p-2 text-gray-700 hover:bg-green-100 rounded">
+          <span class="mr-2">🏠</span> Dashboard
+        </a>
+        <a href="/employee" class="flex items-center p-2 text-green-600 bg-green-100 rounded">
+          <span class="mr-2">👨‍💼</span> Employee
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 p-6 min-h-screen">
+    <!-- Edit Employee Section -->
+    <section class="bg-white p-6 rounded shadow-md w-full h-full mb-8">
+      <h2 class="text-lg font-semibold mb-4">Edit Employee</h2>
+      <form th:action="@{/updateEmployee/{id}(id=${employee.id})}" th:object="${employee}" method="post">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <input type="text" th:field="*{name}" placeholder="Name" class="border p-2 rounded" />
+        <input type="text" th:field="*{job_role}" placeholder="Designation" class="border p-2 rounded" />
+        <input type="text" th:field="*{department}" placeholder="Department" class="border p-2 rounded" />
+        <input type="date" th:field="*{date_of_birth}" placeholder="DOB" class="border p-2 rounded" />
+        <input type="text" th:field="*{phone_number}" placeholder="Primary Phone" class="border p-2 rounded" />
+        <input type="text" th:field="*{secondary_phone_number}" placeholder="Secondary Phone" class="border p-2 rounded" />
+        <input type="text" th:field="*{address.street}" placeholder="Address" class="border p-2 rounded" />
+        <input type="text" th:field="*{address.city}" placeholder="City" class="border p-2 rounded" />
+        <input type="text" th:field="*{address.state}" placeholder="State" class="border p-2 rounded" />
+        <input type="text" th:field="*{degree.degree_name}" placeholder="Highest Degree" class="border p-2 rounded" />
+        <input type="text" th:field="*{previousEmployment.company_name}" placeholder="Company Name" class="border p-2 rounded" />
+        <input type="number" th:field="*{ctc}" placeholder="Current CTC" class="border p-2 rounded" />
+        <input type="file" th:field="*{certificationPath}" multiple accept=".pdf,.doc,.docx" class="border p-2 rounded">
+      </div>
+      <div class="flex gap-4 mt-4">
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Update</button>
+        <button type="button" onclick="cancelEdit()" class="bg-gray-300 text-black px-4 py-2 rounded">Cancel</button>
+      </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+
+    function cancelEdit() {
+      // Go back or redirect
+      window.location.href = 'employee.html';
+    }
+  </script>
+</body>
+</html>

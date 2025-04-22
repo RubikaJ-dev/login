@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="bg-green-100">
+        <div class="flex h-screen">
+            <!-- Sidebar will be dynamically loaded here -->
+            <div th:replace="sidebar :: sidebarFragment"></div>
+
+            <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Dashboard</h2>
+            </div>
+            
+            <div class="max-w-7xl mx-auto grid grid-cols-12 gap-6 p-6 flex h-screen w-full">
+
+                <!-- Left Sidebar (User Info) -->
+                <div class="col-span-3 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold">What's New!</h2>
+                    <div class="mt-6 bg-green-100 p-4 rounded-lg">
+                        <p class="font-semibold">HELLO SCARLETTE!</p>
+                        <p class="text-gray-500 text-sm">You have 45 new applications.</p>
+                        <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg w-full">Review It</button>
+                    </div>
+                </div>
+            
+                <!-- Middle Section (Stats + Team Performance) -->
+                <div class="col-span-6">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="bg-white p-6 shadow rounded-lg text-center">
+                            <p class="text-gray-500">Total Present</p>
+                            <h3 class="text-2xl font-bold">99</h3>
+                        </div>
+                        <div class="bg-white p-6 shadow rounded-lg text-center">
+                            <p class="text-gray-500">Total Absent</p>
+                            <h3 class="text-2xl font-bold">15</h3>
+                        </div>
+                        <div class="bg-white p-6 shadow rounded-lg text-center">
+                            <p class="text-gray-500">Total On Leave</p>
+                            <h3 class="text-2xl font-bold">06</h3>
+                        </div>
+                    </div>
+            
+                    <!-- Team Performance Chart -->
+                    <div class="bg-white mt-6 p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold">Team Performance</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            
+                <!-- Right Sidebar (Pie Chart) -->
+                <div class="col-span-3 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold">Total Employees</h3>
+                    <canvas id="employeeChart"></canvas>
+                    <ul class="mt-4 text-sm space-y-2">
+                        <li class="text-green-600">• Software Engineer - 50</li>
+                        <li class="text-green-600">• UI/UX Designer - 28</li>
+                        <li class="text-green-600">• Data Analyst - 25</li>
+                        <li class="text-green-600">• Mobile Developer - 10</li>
+                        <li class="text-green-600">• Project Manager - 7</li>
+                    </ul>
+                </div>
+            
+            </div>
+           
+       
+         </main>
+        </div>
+    
+        <script>
+
+<!--fetch("sidebar.html")-->
+<!--            .then(response => response.text())-->
+<!--            .then(data => {-->
+<!--                document.getElementById("sidebar-container").innerHTML = data;-->
+<!--            })-->
+<!--            .catch(error => console.error("Error loading sidebar:", error));-->
+            
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Designer Team',
+                    data: [40, 50, 45, 55, 60, 70, 75, 80, 85, 90, 95, 100],
+                    borderColor: 'green',
+                    fill: false
+                }, {
+                    label: 'Developer Team',
+                    data: [30, 40, 35, 50, 55, 65, 70, 75, 80, 85, 90, 95],
+                    borderColor: 'black',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true
+            }
+        });
+        
+        // Employee Pie Chart
+    const employeeCtx = document.getElementById('employeeChart').getContext('2d');
+    new Chart(employeeCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ["Software Engineer", "UI/UX Designer", "Data Analyst", "Mobile Developer", "Project Manager"],
+            datasets: [{
+                data: [50, 28, 25, 10, 7],
+                backgroundColor: ["#16a34a", "#22c55e", "#86efac", "#bbf7d0", "#d9f99d"]
+            }]
+        },
+        options: { responsive: true }
+    });
+
+
+    </script>
+</body>
+</html>
