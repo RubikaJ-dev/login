@@ -73,32 +73,6 @@
         </div>
 
         <script>
-            // Load Sidebar dynamically
-            fetch("sidebar.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("sidebar-container").innerHTML = data;
-                })
-                .catch(error => console.error("Error loading sidebar:", error));
-
-            // Load other HTML fragments
-            fetch("edit.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("formContainer").innerHTML = data;
-                });
-
-            fetch("add.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("formContainer").innerHTML = data;
-                });
-
-            fetch("view.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("formContainer").innerHTML = data;
-                });
 
             // Function to search the table by name
             function searchTable() {
@@ -202,8 +176,8 @@
                 row.innerHTML = `
                     <td class="p-2 text-blue-600">${employee.id}</td>
                     <td class="p-2">${employee.name}</td>
-                    <td class="p-2">${employee.jobRole}</td>
-                    <td class="p-2">${employee.phone}</td>
+                    <td class="p-2">${employee.job_role}</td>
+                    <td class="p-2">${employee.phone_number}</td>
                     <td class="p-2">${employee.ctc}</td>
                     <td class="p-2 text-center">
                         <button onclick="viewRow(this)" class="text-blue-500 px-2"><i class="fas fa-eye"></i></button>

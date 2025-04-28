@@ -10,10 +10,6 @@ public interface EmployeeService {
 
     Employee findEmployeeById(int id);
 
-    Object createEmployee(Object o);
-
-    Object updateEmployee(Object o, int id);
-
     Employee createEmployee(Employee employee);
 
     Employee updateEmployee(Employee employee,int id);

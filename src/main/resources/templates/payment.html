@@ -1,108 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HRMS Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </head>
 <body class="flex bg-green-100 min-h-screen font-sans">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white shadow-md p-5 flex flex-col justify-between">
-    <div>
-      <h1 class="text-2xl font-bold text-green-600">StaffX</h1>
-      <nav class="mt-5 space-y-2">
-        <p class="text-gray-400 uppercase text-xs">General</p>
-        <a href="index.html" class="flex items-center p-2 text-green-600 bg-green-100 rounded">
-          <span class="mr-2">🏠</span> Dashboard
-        </a>
-        <a href="employee.html" class="flex items-center p-2 text-gray-700 hover:bg-green-100 rounded">
-          <span class="mr-2">👨‍💼</span> Employee
-        </a>
-        <a href="salary.html" class="flex items-center p-2 text-gray-700 hover:bg-green-100 rounded">
-          <span class="mr-2">💰</span> Salary
-        </a>
-      </nav>
+<div th:replace="sidebar :: sidebarFragment"></div>
+
+<!-- Main Content -->
+<main class="flex-1 p-6 overflow-y-auto">
+  <section class="bg-white p-6 rounded-lg shadow-md w-full">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Salary Dashboard</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 border">
+        <thead class="bg-green-600 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-semibold">Employee ID</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold">Name</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold">Net Salary</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold">UPI ID / Bank</th>
+          <th class="px-4 py-2 text-left text-sm font-semibold">Action</th>
+        </tr>
+        </thead>
+        <tbody id="employeeTable" class="bg-white divide-y divide-gray-100">
+        <tr th:each="employee : ${employeeList}">
+          <td class="p-2 text-blue-600" th:text="${employee.id}"></td>
+          <td class="p-2" th:text="${employee.name}"></td>
+          <td class="p-2" th:text="${employee.ctc}"></td>
+          <td class="p-2" th:text="${employee.phone_number}"></td>
+          <td class="p-2 text-center">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+                    onclick="payNow(this)">
+              Pay Now
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-  </aside>
+  </section>
+</main>
 
-  <!-- Main Content -->
-  <main class="flex-1 p-6 overflow-y-auto">
-    <section class="bg-white p-6 rounded-lg shadow-md w-full">
-      <h2 class="text-xl font-semibold mb-4 text-gray-700">Salary Dashboard</h2>
+<!-- Script -->
+<script>
+  function payNow(button) {
+      let row = button.closest("tr");
+      let id = row.cells[0].textContent;
+      let amount = row.cells[2].textContent; // Assuming the Net Salary is in the third column
+      let upiId = row.cells[3].textContent; // Assuming UPI ID/Bank is in the fourth column
 
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 border">
-          <thead class="bg-green-600 text-white">
-            <tr>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Employee ID</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Name</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Net Salary</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">UPI ID / Bank</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Action</th>
-            </tr>
-          </thead>
-          <tbody id="employeeTable" class="bg-white divide-y divide-gray-100">
-            <!-- Filled by JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <!-- Script -->
-  <script>
-    const employees = [
-      { id: 1, name: "Anjali Sharma", salary: 42500, upi: "anjali@upi" },
-      { id: 2, name: "Ravi Kumar", salary: 38700, upi: "ravi@upi" },
-      { id: 3, name: "Priya Verma", salary: 40200, upi: "priya@upi" }
-    ];
-
-    const tableBody = document.getElementById("employeeTable");
-
-    employees.forEach(emp => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="px-4 py-2 text-sm text-gray-700">${emp.id}</td>
-        <td class="px-4 py-2 text-sm text-gray-700">${emp.name}</td>
-        <td class="px-4 py-2 text-sm text-gray-700">₹${emp.salary}</td>
-        <td class="px-4 py-2 text-sm text-gray-700">${emp.upi}</td>
-        <td class="px-4 py-2">
-          <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
-                  onclick="paySalary(${emp.id}, ${emp.salary}, '${emp.upi}')">
-            Pay Now
-          </button>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    });
-
-    function paySalary(empId, amount, upiId) {
-      fetch("/pay-salary", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          userId: empId,
-          amount: amount,
-          upiId: upiId
-        })
+      // Create the order in your backend (simplified for this example)
+     fetch(`/pay-salary/${id}?amount=${amount}&currency=INR&receipt=order-${id}`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          }
       })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
-        if (data.status === "success") {
-          alert("✅ Payment successful for Employee ID " + empId);
-        } else {
-          alert("❌ Payment failed. Try again.");
-        }
+          if (data.orderId) {
+              openRazorpay(data.orderId, amount);
+          } else {
+              alert("❌ Payment order creation failed.");
+          }
       })
       .catch(err => {
-        console.error("Error:", err);
-        alert("⚠️ Error while processing payment.");
+          console.error("Error:", err);
+          alert("⚠️ Error while creating payment order.");
       });
-    }
-  </script>
+
+
+    function openRazorpay(orderId, amount) {
+    var options = {
+      "key": "rzp_test_xpt5Aiy2c4N9Jx", // Your Razorpay Key ID
+      "amount": amount * 100, // Amount in paise
+      "currency": "INR",
+      "name": "Your Company Name",
+      "description": "Salary Payment",
+      "order_id": orderId,
+
+      "handler": function (response) {
+        alert('✅ Payment successful! Payment ID: ' + response.razorpay_payment_id);
+        // You can also call your backend to save this payment info
+      },
+      "prefill": {
+        "name": "Employee",
+        "email": "employee@example.com",
+        "contact": "9999999999"
+      },
+      "theme": {
+        "color": "#00b894"
+      }
+
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();
+  }
+  }
+</script>
+
 </body>
 </html>

@@ -24,6 +24,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static java.lang.System.*;
@@ -56,29 +57,37 @@ public class EmployeeController {
     @PostMapping("/addEmployee")
     public ResponseEntity<String> addEmployee(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("name") String name,
-            @RequestParam("age") String age,
-            @RequestParam("designation") String designation,
-            @RequestParam("department") String department,
-            @RequestParam("dateOfBirth") String dateOfBirth,
-            @RequestParam("primaryPhone") String primaryPhone,
-            @RequestParam("secondaryPhone") String secondaryPhone,
-            @RequestParam("address") String address,
-            @RequestParam("city") String city,
-            @RequestParam("state") String state,
-            @RequestParam("degree") String degree,
-            @RequestParam("previousEmployment") String previousEmployment,
-            @RequestParam("ctc") String ctc,
-            @RequestParam("email") String email){
+            @RequestParam Map<String, String> formData)
+           {
 
-        System.out.println("NAme:"+name);
-        System.out.println("email:"+email);
-        System.out.println("Age:"+age);
+               try {
+                   // Parse basic fields
+                   String name = formData.get("name");
+                   String age = formData.get("age");
+                   String job_role = formData.get("designation");
+                   String department = formData.get("department");
+                   String date_of_birth = formData.get("dateOfBirth");
+                   String phone_number = formData.get("primaryPhone");
+                   String secondary_phone_number = formData.get("secondaryPhone");
+                   String email = formData.get("email");
+                   String ctc = formData.get("ctc");
+
+                   // Parse address fields
+                   String street = formData.get("address.street");
+                   String city = formData.get("address.city");
+                   String state = formData.get("address.state");
+
+                   // Degree
+                   String degreeName = formData.get("degree.degree_name");
+
+                   // Previous employment
+                   String companyName = formData.get("previousEmployment.company_name");
+
         LocalDate dob = null;
         try {
-            if (dateOfBirth != null && !dateOfBirth.isEmpty()) {
+            if (date_of_birth != null && !date_of_birth.isEmpty()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                dob = LocalDate.parse(dateOfBirth, formatter);
+                dob = LocalDate.parse(date_of_birth, formatter);
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format. Please use dd-MM-yyyy.");
@@ -94,26 +103,28 @@ public class EmployeeController {
         Employee employee = new Employee();
         employee.setName(name);
         employee.setAge(age);
-        employee.setJob_role(designation);
+        employee.setJob_role(job_role);
+        employee.setDepartment(department);
         employee.setEmail(email); // Set email value
         employee.setDate_of_join(Date.valueOf(LocalDate.now())); // Set current date for join
         java.sql.Date sqlDate = java.sql.Date.valueOf(dob);
 
         employee.setDate_of_birth(java.sql.Date.valueOf(dob));
-        employee.setPhone_number(primaryPhone);
-        employee.setSecondary_phone_number(secondaryPhone);
+        employee.setPhone_number(phone_number);
+        employee.setSecondary_phone_number(secondary_phone_number);
+        employee.setCtc(ctc);
 
-        Degree degree1 = new Degree();
-        degree1.setDegree_name(degree);
+
+                   Degree degree1 = new Degree();
+        degree1.setDegree_name(formData.get(degreeName));
         degree1.setEmployee(employee);
 
         PreviousEmployment previousEmployment1 = new PreviousEmployment();
-        previousEmployment1.setCompany_name(previousEmployment);
+        previousEmployment1.setCompany_name(companyName);
         previousEmployment1.setEmployee(employee);
-        employee.setCtc(ctc);
 
         Address address1 =new Address();
-        address1.setStreet(address);
+        address1.setStreet(street);
         address1.setCity(city);
         address1.setState(state);
         address1.setEmployee(employee);
@@ -141,6 +152,11 @@ public class EmployeeController {
         }
 
         return ResponseEntity.ok("Employee added successfully");
+               } catch (Exception ex) {
+                   ex.printStackTrace();
+                   return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                           .body("Failed to add employee: " + ex.getMessage());
+               }
     }
 
 

@@ -30,17 +30,6 @@ public class EmployeeServiceImplementation implements EmployeeService {
         return employeeRepository.findById(id).orElse(null);
 
     }
-
-    @Override
-    public Object createEmployee(Object o) {
-        return null;
-    }
-
-    @Override
-    public Object updateEmployee(Object o, int id) {
-        return null;
-    }
-
     @Override
     public Employee createEmployee(Employee employee) {
         Employee result = employeeRepository.save(employee);

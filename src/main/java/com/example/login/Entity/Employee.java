@@ -2,6 +2,8 @@ package com.example.login.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -34,7 +36,13 @@ public class Employee {
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Address address;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Degree degree;
 
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private PreviousEmployment previousEmployment;
     public String getDepartment() {
         return department;
     }
@@ -87,13 +95,7 @@ public class Employee {
         this.previousEmployment = previousEmployment;
     }
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Degree degree;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private PreviousEmployment previousEmployment;
 
 
     public int getId() {
@@ -103,7 +105,7 @@ public class Employee {
     public void setId(int id) {
         this.id = id;
     }
-
+    @NotNull
     public String getName() {
         return name;
     }

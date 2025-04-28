@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RazorPay</title>
+</head>
+<body>
+<script src="https://checkout.razorpay.com/v1/checkout.js">
+    function openRazorpay(orderId, amount) {
+    const options = {
+        "key": "rzp_test_xpt5Aiy2c4N9Jx",
+        "amount": amount, // in paise
+        "currency": "INR",
+        "name": "Your Company Name",
+        "description": "Purchase Description",
+        "order_id": orderId,
+        "handler": function (response) {
+            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+        },
+        "prefill": {
+            "name": "Customer Name",
+            "email": "email@example.com"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
+
+</script>
+
+</body>
+</html>
