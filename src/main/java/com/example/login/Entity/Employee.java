@@ -11,7 +11,7 @@ import java.util.Date;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name="users")
+@Table(name="employees")
 
 public class Employee {
     @Id

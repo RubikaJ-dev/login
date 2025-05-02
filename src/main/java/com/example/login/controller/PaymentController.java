@@ -2,7 +2,7 @@ package com.example.login.controller;
 
 
 import com.example.login.Entity.Employee;
-import com.example.login.services.EmployeeService;
+import com.example.login.services.AdminService;
 import com.example.login.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +20,14 @@ import java.util.Map;
     public class PaymentController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private AdminService adminService;
 
     @Autowired
     private PaymentService paymentService;
 
     @GetMapping("/pay")
     public String showPaymentPage(Model model) {
-        List<Employee> employeeList = employeeService.fetchAllEmployee();
+        List<Employee> employeeList = adminService.fetchAllEmployee();
         model.addAttribute("employeeList", employeeList);  // Add employeeList to the model
         return "payment";  // Thymeleaf template name
     }

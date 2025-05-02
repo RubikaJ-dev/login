@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-semibold text-center mb-4">Admin Login</h2>
+        <form id="loginForm" >
+
+            <input type="hidden" name="role" value="admin"> <!-- Hidden input to send admin role -->
+            <label class="block mb-2">Username</label>
+            <input type="text" name="username" id="username" class="w-full p-2 border rounded mb-3" required>
+            
+            <label class="block mb-2">Password</label>
+            <input type="password" name="password" id="password" class="w-full p-2 border rounded mb-3" required>
+
+            <!-- The CSRF Token input will be injected here -->
+            <input type="hidden" id="_csrf" name="_csrf" value="" />
+
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="#" class="text-blue-500 text-sm">Forgot Password?</a>
+        </div>
+    </div>
+
+    <script>
+
+          document.getElementById("loginForm").addEventListener("submit", async function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const csrfToken = document.querySelector('input[name="_csrf"]').value;
+              try {
+                const response = await fetch("/auth/login", {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                     "X-CSRF-TOKEN": csrfToken // Add CSRF token to the request headers
+                     },
+                    body: JSON.stringify({ username, password })
+                });
+                console.log(response);
+                if (response.ok) {
+                    const contentType = response.headers.get("Content-Type");
+                    if (contentType && contentType.includes("application/json")) {
+                        const data = await response.json();
+                         console.log("Response data:", data);
+                        localStorage.setItem("token", data.token);
+                         console.log("Stored token:", localStorage.getItem("token"));
+                        window.location.href = "/admin/index";
+                    } else {
+                        const text = await response.text();
+                        alert("Login succeeded but response was not JSON: " + text);
+                    }
+                } else {
+                    const errorText = await response.text();
+                    alert("Login failed: " + errorText);
+                }
+            } catch (error) {
+                console.error("Error during login:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>

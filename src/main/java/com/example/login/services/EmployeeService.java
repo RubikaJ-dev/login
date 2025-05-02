@@ -1,20 +1,12 @@
 package com.example.login.services;
 
 import com.example.login.Entity.Employee;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 public interface EmployeeService {
-    List<Employee> fetchAllEmployee();
-
-    Employee findEmployeeById(int id);
-
-    Employee createEmployee(Employee employee);
-
-    Employee updateEmployee(Employee employee,int id);
-
-    void updateEmployee(Employee employee);
-
-    String deleteEmployee(int id);
+    Employee approveEmployee(Employee employee);
+    Employee viewPayslips();
+    Employee submitLeaveRequest();
+    Employee getEmployeeByRole();
+    Employee getEmployeeByProfile();
+    Employee updatePersonalDocuments();
 }

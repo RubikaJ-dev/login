@@ -22,7 +22,7 @@
             
             <div class="max-w-7xl mx-auto grid grid-cols-12 gap-6 p-6 flex h-screen w-full">
 
-                <!-- Left Sidebar (User Info) -->
+                <!-- Left Sidebar (com.example.login.Entity.User Info) -->
                 <div class="col-span-3 bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-xl font-semibold">What's New!</h2>
                     <div class="mt-6 bg-green-100 p-4 rounded-lg">
@@ -77,8 +77,32 @@
         </div>
     
         <script>
+            const token = localStorage.getItem("token");
+fetch("http://localhost:8080/admin/indexdata"), {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer " + token,
+    "Content-Type": "application/json"
+  }
+  body: JSON.stringify({ /* any payload needed */ })
+})
+  .then(response => {
+  if (!response.ok){
+  throw new Error("HTTP status" + response.status);
+  }
+  return response.json();
+  })
+  .then(data =>{
+  console.log("Admin data:",data);
+  })
+  .catch(error => {
+  console.error("Error:" ,error);
+  });
+            if (response.status === 401) {
+  alert("Session expired. Please log in again.");
+  window.location.href = "/admin-login"; // Redirect to login page
+}
 
-            
     const ctx = document.getElementById('performanceChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',

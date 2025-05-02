@@ -36,8 +36,8 @@
           <td class="p-2" th:text="${employee.ctc}"></td>
           <td class="p-2" th:text="${employee.phone_number}"></td>
           <td class="p-2 text-center">
-            <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
-                    onclick="payNow(this)">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    onclick="payNow(this)"  disabled>
               Pay Now
             </button>
           </td>
@@ -50,6 +50,17 @@
 
 <!-- Script -->
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const today = new Date();
+  const day = today.getDate();
+
+  if (day === 28) {
+    document.querySelectorAll("button[onclick^='payNow']").forEach(button => {
+      button.disabled = false;
+    });
+  }
+});
+
   function payNow(button) {
       let row = button.closest("tr");
       let id = row.cells[0].textContent;
