@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Employee Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-100 min-h-screen p-6">
+    <div th:replace="sidebar :: sidebarFragment"></div>  
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-10">
+             
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold">Employee Dashboard</h1>
+            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md">
+                🔒 Logout
+            </button>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="bg-green-50 p-6 rounded-xl mb-8 flex items-center space-x-6 shadow-md">
+            <img alt="Profile Picture" class="rounded-full" src="https://via.placeholder.com/80">
+            <div>
+                <h2 class="text-2xl font-bold">John Doe</h2>
+                <p class="text-gray-600">Software Engineer</p>
+                <p class="text-gray-500 text-sm">Employee ID: EMP12345</p>
+            </div>
+        </div>
+
+        <!-- Actions Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- View Profile -->
+            <div class="bg-white border hover:border-green-400 p-6 rounded-2xl shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+                <div class="text-green-500 text-4xl mb-4">👤</div>
+                <h3 class="text-xl font-bold mb-2">View Profile</h3>
+                <p class="text-gray-600 mb-4">See your personal and job details.</p>
+                <button class="mt-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
+                    View
+                </button>
+            </div>
+
+            <!-- Submit Leave Application -->
+            <div class="bg-white border hover:border-green-400 p-6 rounded-2xl shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+                <div class="text-green-500 text-4xl mb-4">📝</div>
+                <h3 class="text-xl font-bold mb-2">Leave Application</h3>
+                <p class="text-gray-600 mb-4">Apply for vacation or sick leaves.</p>
+                <button class="mt-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
+                    Apply
+                </button>
+            </div>
+
+            <!-- Update Personal Documents -->
+            <div class="bg-white border hover:border-green-400 p-6 rounded-2xl shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+                <div class="text-green-500 text-4xl mb-4">📄</div>
+                <h3 class="text-xl font-bold mb-2">Update Documents</h3>
+                <p class="text-gray-600 mb-4">Upload or modify your documents.</p>
+                <button class="mt-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
+                    Update
+                </button>
+            </div>
+
+            <!-- View Payslip -->
+            <div class="bg-white border hover:border-green-400 p-6 rounded-2xl shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
+                <div class="text-green-500 text-4xl mb-4">💰</div>
+                <h3 class="text-xl font-bold mb-2">View Payslip</h3>
+                <p class="text-gray-600 mb-4">Check your monthly salary slips.</p>
+                <button class="mt-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
+                    View
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

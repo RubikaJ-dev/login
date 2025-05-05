@@ -50,7 +50,18 @@
 
 <!-- Script -->
 <script>
+
   document.addEventListener("DOMContentLoaded", function () {
+
+     const token = localStorage.getItem("token");
+     console.log("Token:", token);
+ fetch("http://localhost:8080/admin/pay", {
+   method: "GET",
+   headers: {
+     "Authorization": "Bearer " + token,
+     "Content-Type": "application/json"
+   }
+ })
   const today = new Date();
   const day = today.getDate();
 

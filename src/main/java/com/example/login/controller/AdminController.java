@@ -37,8 +37,13 @@ public class AdminController {
 
     @GetMapping("/index")
     public String showIndexPage() {
-        System.out.println("index");
-        return "index"; // This looks for index.html in src/main/resources/templates
+        try {
+            System.out.println("index");
+            return "index"; // Will try to resolve index.html or index template
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the full error to console/log file
+            return "error"; // Return a generic error page (create error.html in templates)
+        }// This looks for index.html in src/main/resources/templates
     }
 
     @GetMapping("/employee")
@@ -168,12 +173,10 @@ public class AdminController {
 
 
     @PostMapping("/updateEmployee/{id}")
-    public String updateEmployee(@ModelAttribute Employee employee) {
-        Employee existingEmployee = adminService.findEmployeeById(employee.getId());
-
+    public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
+        Employee existingEmployee = adminService.findEmployeeById(id);
 
         if (existingEmployee != null) {
-            // Update the employee details
             existingEmployee.setName(employee.getName());
             existingEmployee.setAge(employee.getAge());
             existingEmployee.setJob_role(employee.getJob_role());
@@ -182,19 +185,27 @@ public class AdminController {
             existingEmployee.setPhone_number(employee.getPhone_number());
             existingEmployee.setSecondary_phone_number(employee.getSecondary_phone_number());
             existingEmployee.setCtc(employee.getCtc());
-            existingEmployee.getAddress().setStreet(employee.getAddress().getStreet());
-            existingEmployee.getAddress().setCity(employee.getAddress().getCity());
-            existingEmployee.getAddress().setState(employee.getAddress().getState());
-            existingEmployee.getDegree().setDegree_name(employee.getDegree().getDegree_name());
-            existingEmployee.getPreviousEmployment().setCompany_name(employee.getPreviousEmployment().getCompany_name());
 
-            // Save the updated employee
-            adminService.createEmployee(existingEmployee); // You might want to create an update method in your service
+            if (existingEmployee.getAddress() != null && employee.getAddress() != null) {
+                existingEmployee.getAddress().setStreet(employee.getAddress().getStreet());
+                existingEmployee.getAddress().setCity(employee.getAddress().getCity());
+                existingEmployee.getAddress().setState(employee.getAddress().getState());
+            }
 
-            return "redirect:/employee"; // Redirect to employee list after update
+            if (existingEmployee.getDegree() != null && employee.getDegree() != null) {
+                existingEmployee.getDegree().setDegree_name(employee.getDegree().getDegree_name());
+            }
+
+            if (existingEmployee.getPreviousEmployment() != null && employee.getPreviousEmployment() != null) {
+                existingEmployee.getPreviousEmployment().setCompany_name(employee.getPreviousEmployment().getCompany_name());
+            }
+
+            adminService.createEmployee(existingEmployee); // or use a dedicated update method
+
+            return ResponseEntity.ok(existingEmployee);
         }
 
-        return "redirect:/employee"; // Handle invalid employee
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
     }
 
 

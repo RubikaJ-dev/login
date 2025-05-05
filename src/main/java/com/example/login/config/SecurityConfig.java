@@ -38,8 +38,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/register","/auth/**", "/signup", "/login", "/user-login", "/admin-login","/favicon.ico").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/**","/view/**").permitAll()
+                        .requestMatchers("/api/admin/**","/admin/updateEmployee/**","/updateEmployee/**").authenticated()
+
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

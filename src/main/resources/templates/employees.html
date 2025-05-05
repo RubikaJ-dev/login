@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-100 min-h-screen p-6">
+    <div th:replace="sidebar :: sidebarFragment"></div>  
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold">My Profile</h1>
+            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md">
+                🔒 Logout
+            </button>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="flex justify-between items-center mb-8">
+            <img alt="Profile Picture" class="rounded-full shadow-md" src="https://via.placeholder.com/100">
+            <div class="ml-6">
+                <h2 class="text-2xl font-bold">John Doe</h2>
+                <p class="text-gray-600">Software Engineer</p>
+                <p class="text-gray-500">Employee ID: EMP12345</p>
+            </div>
+        </div>
+
+        <!-- Personal Information Form -->
+        <div class="bg-green-50 p-6 rounded-xl mb-8 shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Personal Information</h2>
+            <form action="#" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700" for="first-name">First Name</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="first-name" name="first-name" type="text" value="John">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="last-name">Last Name</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="last-name" name="last-name" type="text" value="Doe">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="email">Email Address</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="email" name="email" type="email" value="johndoe@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="phone">Phone Number</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="phone" name="phone" type="tel" value="9876543210">
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md" type="submit">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Job Information -->
+        <div class="bg-green-50 p-6 rounded-xl mb-8 shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Job Information</h2>
+            <form action="#" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700" for="department">Department</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="department" name="department" type="text" value="Software Development">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="position">Position</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="position" name="position" type="text" value="Software Engineer">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="join-date">Join Date</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="join-date" name="join-date" type="date" value="2022-03-15">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700" for="salary">Salary</label>
+                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="salary" name="salary" type="text" value="₹ 50,000">
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md" type="submit">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

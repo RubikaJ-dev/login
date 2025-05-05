@@ -47,7 +47,11 @@ public class RegistrationRestController {
             UserDTO createdUser = userService.createUser(userDTO);
             createdUser.setPassword(userDTO.getPassword());
 
-            return ResponseEntity.ok(createdUser); // Contains token + user info
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Registration successful!"
+                    // Optionally include user details: "user", createdUser
+            ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("message", "Registration failed: " + e.getMessage()));
         }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -169,6 +170,24 @@ public class Employee {
     public void setCtc(String ctc) {
         this.ctc = ctc;
     }
+
+//    public Employee(int id, String name, String age,  Date date_of_birth,Date date_of_join, String job_role, String phone_number, String secondary_phone_number, String ctc, String email, String department, String certificationPath, Address address, Degree degree, PreviousEmployment previousEmployment, MultipartFile file) {
+//        this.id = id;
+//        this.name = name;
+//        this.age = age;
+//        this.date_of_join = date_of_join;
+//        this.date_of_birth = date_of_birth;
+//        this.job_role = job_role;
+//        this.phone_number = phone_number;
+//        this.secondary_phone_number = secondary_phone_number;
+//        this.ctc = ctc;
+//        this.email = email;
+//        this.department = department;
+//        this.certificationPath = certificationPath;
+//        this.address = address;
+//        this.degree = degree;
+//        this.previousEmployment = previousEmployment;
+//    }
 
     public String getEmail() {
         return email;

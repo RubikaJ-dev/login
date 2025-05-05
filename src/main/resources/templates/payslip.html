@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Payslip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-100 min-h-screen p-8">
+    <div th:fragment="sidebarFragment"></div>
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        <!-- Payslip Header -->
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <div>
+                <h1 class="text-3xl font-bold">Payslip</h1>
+                <p class="text-gray-500">Month: April 2025</p>
+            </div>
+            <div>
+                <img alt="Company Logo" class="w-20 h-20 rounded-full" src="https://via.placeholder.com/100">
+            </div>
+        </div>
+
+        <!-- Employee Details -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+                <p class="text-gray-600">Employee Name:</p>
+                <p class="font-semibold">John Doe</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Employee ID:</p>
+                <p class="font-semibold">EMP12345</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Department:</p>
+                <p class="font-semibold">Software Development</p>
+            </div>
+            <div>
+                <p class="text-gray-600">Designation:</p>
+                <p class="font-semibold">Software Engineer</p>
+            </div>
+        </div>
+
+        <!-- Salary Details -->
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold mb-4">Salary Breakdown</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-left text-gray-700">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Component</th>
+                            <th class="p-2">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">Basic Salary</td>
+                            <td class="p-2">30,000</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">House Rent Allowance (HRA)</td>
+                            <td class="p-2">12,000</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">Conveyance Allowance</td>
+                            <td class="p-2">2,000</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">Medical Allowance</td>
+                            <td class="p-2">1,500</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-bold">Gross Salary</td>
+                            <td class="p-2 font-bold">45,500</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">Tax Deduction</td>
+                            <td class="p-2">-2,500</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-bold">Net Payable Salary</td>
+                            <td class="p-2 font-bold">43,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Button -->
+        <div class="text-center mt-8">
+            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition">
+                📄 Download Payslip PDF
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
