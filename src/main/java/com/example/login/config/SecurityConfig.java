@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/register","/auth/**", "/signup", "/login", "/user-login", "/admin-login","/favicon.ico").permitAll()
                         .requestMatchers("/admin/**","/view/**").permitAll()
-                        .requestMatchers("/api/admin/**","/admin/updateEmployee/**","/updateEmployee/**").authenticated()
+                        .requestMatchers("/api/admin/**","/admin/updateEmployee/**","/updateEmployee/**","/admin/pay-salary/**" ,"/pay-salary/**").authenticated()
 
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

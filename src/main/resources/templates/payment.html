@@ -52,80 +52,79 @@
 <script>
 
   document.addEventListener("DOMContentLoaded", function () {
+   const token = localStorage.getItem("token");
+   const today = new Date();
+   const day = today.getDate();
 
-     const token = localStorage.getItem("token");
-     console.log("Token:", token);
- fetch("http://localhost:8080/admin/pay", {
-   method: "GET",
-   headers: {
-     "Authorization": "Bearer " + token,
-     "Content-Type": "application/json"
+   fetch("http://localhost:8080/admin/pay", {
+     method: "GET",
+     headers: {
+       "Authorization": "Bearer " + token,
+       "Content-Type": "application/json"
+     }
+   })
+   .then(() => {
+     if (day === 5) {
+       document.querySelectorAll("button[onclick^='payNow']").forEach(button => {
+         button.disabled = false;
+       });
+     }
+   })
+   .catch(err => {
+     console.error("Error loading page:", err);
+   });
+ });
+
+ function payNow(button) {
+   const row = button.closest("tr");
+   const id = row.cells[0].textContent.trim();
+   const amount = row.cells[2].textContent.trim();
+   const upiId = row.cells[3].textContent.trim();
+
+   fetch(`/admin/pay-salary/${id}?amount=${amount}&currency=INR&receipt=order-${id}`, {
+     method: "POST",
+     headers: {
+       "Authorization": "Bearer " + localStorage.getItem("token"),
+       "Content-Type": "application/json"
+     }
+   })
+   .then(response => response.json())
+   .then(data => {
+     if (data.orderId) {
+       openRazorpay(data.orderId, amount);
+     } else {
+       alert("❌ Payment order creation failed.");
+     }
+   })
+   .catch(err => {
+     console.error("Error:", err);
+     alert("⚠️ Error while creating payment order.");
+   });
+
+   function openRazorpay(orderId, amount) {
+     const options = {
+       "key": "rzp_test_xpt5Aiy2c4N9Jx", // Your Razorpay Key ID
+       "amount": amount * 100, // Amount in paise
+       "currency": "INR",
+       "name": "Your Company Name",
+       "description": "Salary Payment",
+       "order_id": orderId,
+       "handler": function (response) {
+         alert('✅ Payment successful! Payment ID: ' + response.razorpay_payment_id);
+       },
+       "prefill": {
+         "name": "Employee",
+         "email": "employee@example.com",
+         "contact": "9999999999"
+       },
+       "theme": {
+         "color": "#00b894"
+       }
+     };
+     const rzp = new Razorpay(options);
+     rzp.open();
    }
- })
-  const today = new Date();
-  const day = today.getDate();
-
-  if (day === 28) {
-    document.querySelectorAll("button[onclick^='payNow']").forEach(button => {
-      button.disabled = false;
-    });
-  }
-});
-
-  function payNow(button) {
-      let row = button.closest("tr");
-      let id = row.cells[0].textContent;
-      let amount = row.cells[2].textContent; // Assuming the Net Salary is in the third column
-      let upiId = row.cells[3].textContent; // Assuming UPI ID/Bank is in the fourth column
-
-      // Create the order in your backend (simplified for this example)
-     fetch(`/pay-salary/${id}?amount=${amount}&currency=INR&receipt=order-${id}`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.orderId) {
-              openRazorpay(data.orderId, amount);
-          } else {
-              alert("❌ Payment order creation failed.");
-          }
-      })
-      .catch(err => {
-          console.error("Error:", err);
-          alert("⚠️ Error while creating payment order.");
-      });
-
-
-    function openRazorpay(orderId, amount) {
-    var options = {
-      "key": "rzp_test_xpt5Aiy2c4N9Jx", // Your Razorpay Key ID
-      "amount": amount * 100, // Amount in paise
-      "currency": "INR",
-      "name": "Your Company Name",
-      "description": "Salary Payment",
-      "order_id": orderId,
-
-      "handler": function (response) {
-        alert('✅ Payment successful! Payment ID: ' + response.razorpay_payment_id);
-        // You can also call your backend to save this payment info
-      },
-      "prefill": {
-        "name": "Employee",
-        "email": "employee@example.com",
-        "contact": "9999999999"
-      },
-      "theme": {
-        "color": "#00b894"
-      }
-
-    };
-    var rzp = new Razorpay(options);
-    rzp.open();
-  }
-  }
+ }
 </script>
 
 </body>

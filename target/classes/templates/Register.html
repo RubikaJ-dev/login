@@ -2,39 +2,39 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Registration Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-96">
         <h2 class="text-2xl font-semibold text-center mb-4">Register</h2>
-        <form id="registrationForm" action="/register" method="POST">
+        <form action="/register" id="registrationForm" method="POST">
 
 
         <label class="block mb-2">Full Name</label>
-            <input type="text" id="fullName" name="username" class="border w-full p-2 rounded mb-3" required>
+            <input class="border w-full p-2 rounded mb-3" id="fullName" name="username" required type="text">
             
             <label class="block mb-2">Email</label>
-            <input type="email" id="email" name="email" class="border w-full p-2 rounded mb-3" required>
+            <input class="border w-full p-2 rounded mb-3" id="email" name="email" required type="email">
             
             <label class="block mb-2">Password</label>
-            <input type="password" id="password" name="password" class="border w-full p-2 rounded mb-3" required>
+            <input class="border w-full p-2 rounded mb-3" id="password" name="password" required type="password">
             
             <label class="block mb-2">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" class="border w-full p-2 rounded mb-3" required>
+            <input class="border w-full p-2 rounded mb-3" id="confirmPassword" name="confirmPassword" required type="password">
             
             <label class="block mb-2">Role</label>
-            <select name="role" id="role" class="border w-full p-2 rounded mb-3" required>
-                <option value="user" th:selected="${user.role == 'user'}">User</option>
-                <option value="admin" th:selected="${user.role == 'admin'}">Admin</option>
+            <select class="border w-full p-2 rounded mb-3" id="role" name="role" required>
+                <option th:selected="${user.role == 'user'}" value="user">User</option>
+                <option th:selected="${user.role == 'admin'}" value="admin">Admin</option>
             </select>
 
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Register</button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded w-full" type="submit">Register</button>
         </form>
 
 
-    <p class="text-sm text-center mt-4">Already have an account? <a href="/login" class="text-blue-500">Login</a></p>
+    <p class="text-sm text-center mt-4">Already have an account? <a class="text-blue-500" href="/login">Login</a></p>
     </div>
     <script>
         document.getElementById("registrationForm").addEventListener("submit", function(event) {
