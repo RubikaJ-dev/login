@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HRMS Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex bg-green-100 h-screen font-sans">
+<!-- Sidebar -->
+<!-- Sidebar will be dynamically loaded here -->
+<div th:replace="sidebar :: sidebarFragment"></div>
+
+<!-- Main content -->
+<main class="flex-1 p-6 min-h-screen">
+  <!-- Add Employee Section -->
+  <section class="bg-white p-6 rounded shadow-md w-full h-full mb-8">
+    <h2 class="text-lg font-semibold mb-4">Add Employee</h2>
+    <form id="employeeForm" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="text" id="email" name="email" placeholder="Email" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="job_role" class="block text-sm font-medium text-gray-700">Designation</label>
+        <input type="text" id="job_role" name="designation" placeholder="Designation" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+        <input type="text" id="age" name="age" placeholder="Age" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+        <input type="text" id="department" name="department" placeholder="Department" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+        <input type="date" id="date_of_birth" name="dateOfBirth" placeholder="DOB" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="date_of_join" class="block text-sm font-medium text-gray-700">Date of Joining</label>
+        <input type="date" id="date_of_join" name="dateOfJoin" placeholder="DOJ" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="phone_number" class="block text-sm font-medium text-gray-700">Primary Phone</label>
+        <input type="text" id="phone_number" name="primaryPhone" placeholder="Primary Phone" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="secondary_phone_number" class="block text-sm font-medium text-gray-700">Secondary Phone</label>
+        <input type="text" id="secondary_phone_number" name="secondaryPhone" placeholder="Secondary Phone" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="address.street" class="block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" id="address.street" name="address.street" placeholder="Address" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="address.city" class="block text-sm font-medium text-gray-700">City</label>
+        <input type="text" id="address.city" name="address.city" placeholder="City" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="address.state" class="block text-sm font-medium text-gray-700">State</label>
+        <input type="text" id="address.state" name="address.state" placeholder="State" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="degree.degree_name" class="block text-sm font-medium text-gray-700">Highest Degree</label>
+        <input type="text" id="degree.degree_name" name="degree.degree_name" placeholder="Highest Degree" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="previousEmployment.company_name" class="block text-sm font-medium text-gray-700">Previous Company</label>
+        <input type="text" id="previousEmployment.company_name" name="previousEmployment.company_name" placeholder="Company Name" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="ctc" class="block text-sm font-medium text-gray-700">Current CTC</label>
+        <input type="number" id="ctc" name="ctc" placeholder="Current CTC" class="border p-2 rounded">
+      </div>
+
+      <div>
+        <label for="certificationPath" class="block text-sm font-medium text-gray-700">Certification</label>
+        <input type="file" id="certificationPath" name="file" multiple accept=".pdf,.doc,.docx" class="border p-2 rounded">
+      </div>
+
+      <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Add Employee</button>
+    </form>
+  </section>
+</main>
+
+<script>
+  document.getElementById("employeeForm").addEventListener("submit", function(event) {
+   event.preventDefault(); // Prevent the form from submitting the traditional way
+ // JavaScript to handle form submission using fetch
+ const token = localStorage.getItem("token");
+ console.log("Token:", token);
+
+   // Get input field values
+   const name = document.getElementById("name").value;
+   const email = document.getElementById("email").value;
+   const age = document.getElementById("age").value;
+   const dob = document.getElementById("date_of_birth").value;
+   const phone = document.getElementById("phone_number").value;
+   const secondaryPhone = document.getElementById("secondary_phone_number").value;
+   const formData = new FormData();
+
+   // Validate Name (non-empty)
+   if (name.trim() === "") {
+     alert("Name is required.");
+     return;
+   }
+
+   // Validate Email (basic pattern check)
+   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+   if (!emailPattern.test(email)) {
+     alert("Please enter a valid email address.");
+     return;
+   }
+
+   // Validate Phone (10 digits)
+   const phonePattern = /^[0-9]{10}$/;
+   if (!phonePattern.test(phone)) {
+     alert("Please enter a valid 10-digit phone number.");
+     return;
+   }
+
+   // Validate Secondary Phone (optional, but if provided, 10 digits)
+   if (secondaryPhone && !phonePattern.test(secondaryPhone)) {
+     alert("Please enter a valid 10-digit secondary phone number.");
+     return;
+   }
+
+   // Validate Age (must be a number and reasonable)
+   if (isNaN(age) || age < 18 || age > 100) {
+     alert("Please enter a valid age between 18 and 100.");
+     return;
+   }
+
+   // Validate Date of Birth (can't be in the future)
+   const today = new Date();
+   const dobDate = new Date(dob);
+   if (dobDate > today) {
+     alert("Date of Birth cannot be in the future.");
+     return;
+   }
+
+
+   // Create a FormData object to send employee data and the file
+
+
+   formData.append("name", document.getElementById("name").value);
+    formData.append("email", document.getElementById("email").value);
+   formData.append("age", document.getElementById("age").value);
+   formData.append("designation", document.getElementById("job_role").value);
+   formData.append("department", document.getElementById("department").value);
+   formData.append("dateOfBirth", document.getElementById("date_of_birth").value);
+   formData.append("dateOfJoin", document.getElementById("date_of_join").value);
+   formData.append("primaryPhone", document.getElementById("phone_number").value);
+   formData.append("secondaryPhone", document.getElementById("secondary_phone_number").value);
+   formData.append("address.street", document.getElementById("address.street").value);
+   formData.append("address.city", document.getElementById("address.city").value);
+   formData.append("address.state", document.getElementById("address.state").value);
+   formData.append("degree.degree_name", document.getElementById("degree.degree_name").value);
+   formData.append("previousEmployment.company_name", document.getElementById("previousEmployment.company_name").value);
+   formData.append("ctc", document.getElementById("ctc").value);
+   formData.append("file", document.getElementById("certificationPath").files[0]); // Only appending the first file
+
+   // Send the data using fetch
+   fetch("http://localhost:8080/admin/addEmployee", {
+     method: "POST",
+      headers: {
+   Authorization: "Bearer " + token
+ },
+     body: formData
+   })
+    .then(response => {
+      return response.text().then(data => ({
+        status: response.status,
+        ok: response.ok,
+        body: data
+      }));
+    })
+    .then(({ ok, body }) => {
+      console.log("Backend Response:", body);
+      if (ok) {
+        alert("Employee added successfully!");
+        window.location.href = "/admin/employee";
+      } else {
+        alert("Failed to add employee: " + body);
+      }
+    })
+    .catch(error => {
+      console.error("Error occurred:", error);
+      alert("An error occurred while adding the employee.");
+    });
+  });
+</script>
+</body>
+</html>

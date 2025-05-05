@@ -64,27 +64,27 @@
 
       <div>
         <label for="address.street" class="block text-sm font-medium text-gray-700">Address</label>
-        <input type="text" id="address.street" name="address" placeholder="Address" class="border p-2 rounded">
+        <input class="border p-2 rounded" id="address.street" name="address.street" placeholder="Address" type="text">
       </div>
 
       <div>
         <label for="address.city" class="block text-sm font-medium text-gray-700">City</label>
-        <input type="text" id="address.city" name="city" placeholder="City" class="border p-2 rounded">
+        <input class="border p-2 rounded" id="address.city" name="address.city" placeholder="City" type="text">
       </div>
 
       <div>
         <label for="address.state" class="block text-sm font-medium text-gray-700">State</label>
-        <input type="text" id="address.state" name="state" placeholder="State" class="border p-2 rounded">
+        <input class="border p-2 rounded" id="address.state" name="address.state" placeholder="State" type="text">
       </div>
 
       <div>
         <label for="degree.degree_name" class="block text-sm font-medium text-gray-700">Highest Degree</label>
-        <input type="text" id="degree.degree_name" name="degree" placeholder="Highest Degree" class="border p-2 rounded">
+        <input class="border p-2 rounded" id="degree.degree_name" name="degree.degree_name" placeholder="Highest Degree" type="text">
       </div>
 
       <div>
         <label for="previousEmployment.company_name" class="block text-sm font-medium text-gray-700">Previous Company</label>
-        <input type="text" id="previousEmployment.company_name" name="previousEmployment" placeholder="Company Name" class="border p-2 rounded">
+        <input class="border p-2 rounded" id="previousEmployment.company_name" name="previousEmployment.company_name" placeholder="Company Name" type="text">
       </div>
 
       <div>
@@ -103,45 +103,108 @@
 </main>
 
 <script>
-  // JavaScript to handle form submission using fetch
-  document.getElementById("employeeForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent the form from submitting the usual way
+  document.getElementById("employeeForm").addEventListener("submit", function(event) {
+   event.preventDefault(); // Prevent the form from submitting the traditional way
+ // JavaScript to handle form submission using fetch
+ const token = localStorage.getItem("token");
+ console.log("Token:", token);
 
-    // Create a FormData object to send employee data and the file
-    const formData = new FormData();
+   // Get input field values
+   const name = document.getElementById("name").value;
+   const email = document.getElementById("email").value;
+   const age = document.getElementById("age").value;
+   const dob = document.getElementById("date_of_birth").value;
+   const phone = document.getElementById("phone_number").value;
+   const secondaryPhone = document.getElementById("secondary_phone_number").value;
+   const formData = new FormData();
 
-    formData.append("name", document.getElementById("name").value);
-     formData.append("email", document.getElementById("email").value);
-    formData.append("age", document.getElementById("age").value);
-    formData.append("designation", document.getElementById("job_role").value);
-    formData.append("department", document.getElementById("department").value);
-    formData.append("dateOfBirth", document.getElementById("date_of_birth").value);
-    formData.append("dateOfJoin", document.getElementById("date_of_join").value);
-    formData.append("primaryPhone", document.getElementById("phone_number").value);
-    formData.append("secondaryPhone", document.getElementById("secondary_phone_number").value);
-    formData.append("address", document.getElementById("address.street").value);
-    formData.append("city", document.getElementById("address.city").value);
-    formData.append("state", document.getElementById("address.state").value);
-    formData.append("degree", document.getElementById("degree.degree_name").value);
-    formData.append("previousEmployment", document.getElementById("previousEmployment.company_name").value);
-    formData.append("ctc", document.getElementById("ctc").value);
-    formData.append("file", document.getElementById("certificationPath").files[0]); // Only appending the first file
+   // Validate Name (non-empty)
+   if (name.trim() === "") {
+     alert("Name is required.");
+     return;
+   }
 
-    // Send the data using fetch
-    fetch("/addEmployee", {
-      method: "POST",
-      body: formData
-    })
+   // Validate Email (basic pattern check)
+   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+   if (!emailPattern.test(email)) {
+     alert("Please enter a valid email address.");
+     return;
+   }
+
+   // Validate Phone (10 digits)
+   const phonePattern = /^[0-9]{10}$/;
+   if (!phonePattern.test(phone)) {
+     alert("Please enter a valid 10-digit phone number.");
+     return;
+   }
+
+   // Validate Secondary Phone (optional, but if provided, 10 digits)
+   if (secondaryPhone && !phonePattern.test(secondaryPhone)) {
+     alert("Please enter a valid 10-digit secondary phone number.");
+     return;
+   }
+
+   // Validate Age (must be a number and reasonable)
+   if (isNaN(age) || age < 18 || age > 100) {
+     alert("Please enter a valid age between 18 and 100.");
+     return;
+   }
+
+   // Validate Date of Birth (can't be in the future)
+   const today = new Date();
+   const dobDate = new Date(dob);
+   if (dobDate > today) {
+     alert("Date of Birth cannot be in the future.");
+     return;
+   }
+
+
+   // Create a FormData object to send employee data and the file
+
+
+   formData.append("name", document.getElementById("name").value);
+    formData.append("email", document.getElementById("email").value);
+   formData.append("age", document.getElementById("age").value);
+   formData.append("designation", document.getElementById("job_role").value);
+   formData.append("department", document.getElementById("department").value);
+   formData.append("dateOfBirth", document.getElementById("date_of_birth").value);
+   formData.append("dateOfJoin", document.getElementById("date_of_join").value);
+   formData.append("primaryPhone", document.getElementById("phone_number").value);
+   formData.append("secondaryPhone", document.getElementById("secondary_phone_number").value);
+   formData.append("address.street", document.getElementById("address.street").value);
+   formData.append("address.city", document.getElementById("address.city").value);
+   formData.append("address.state", document.getElementById("address.state").value);
+   formData.append("degree.degree_name", document.getElementById("degree.degree_name").value);
+   formData.append("previousEmployment.company_name", document.getElementById("previousEmployment.company_name").value);
+   formData.append("ctc", document.getElementById("ctc").value);
+   formData.append("file", document.getElementById("certificationPath").files[0]); // Only appending the first file
+
+   // Send the data using fetch
+   fetch("http://localhost:8080/admin/addEmployee", {
+     method: "POST",
+      headers: {
+   Authorization: "Bearer " + token
+ },
+     body: formData
+   })
     .then(response => {
-      if (response.ok) {
+      return response.text().then(data => ({
+        status: response.status,
+        ok: response.ok,
+        body: data
+      }));
+    })
+    .then(({ ok, body }) => {
+      console.log("Backend Response:", body);
+      if (ok) {
         alert("Employee added successfully!");
-        window.location.href = "/employee"; // Redirect to employee list page
+        window.location.href = "/admin/employee";
       } else {
-        alert("Failed to add employee.");
+        alert("Failed to add employee: " + body);
       }
     })
     .catch(error => {
-      console.error("Error:", error);
+      console.error("Error occurred:", error);
       alert("An error occurred while adding the employee.");
     });
   });

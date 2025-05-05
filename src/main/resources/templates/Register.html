@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Registration Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-semibold text-center mb-4">Register</h2>
+        <form action="/register" id="registrationForm" method="POST">
+
+
+        <label class="block mb-2">Full Name</label>
+            <input class="border w-full p-2 rounded mb-3" id="fullName" name="username" required type="text">
+            
+            <label class="block mb-2">Email</label>
+            <input class="border w-full p-2 rounded mb-3" id="email" name="email" required type="email">
+            
+            <label class="block mb-2">Password</label>
+            <input class="border w-full p-2 rounded mb-3" id="password" name="password" required type="password">
+            
+            <label class="block mb-2">Confirm Password</label>
+            <input class="border w-full p-2 rounded mb-3" id="confirmPassword" name="confirmPassword" required type="password">
+            
+            <label class="block mb-2">Role</label>
+            <select class="border w-full p-2 rounded mb-3" id="role" name="role" required>
+                <option th:selected="${user.role == 'user'}" value="user">User</option>
+                <option th:selected="${user.role == 'admin'}" value="admin">Admin</option>
+            </select>
+
+            <button class="bg-blue-500 text-white px-4 py-2 rounded w-full" type="submit">Register</button>
+        </form>
+
+
+    <p class="text-sm text-center mt-4">Already have an account? <a class="text-blue-500" href="/login">Login</a></p>
+    </div>
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from submitting the usual way
+
+    const fullName = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const role = document.getElementById("role").value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+  // Log the form data to the console before submitting
+            console.log("Form Data Submitted:");
+            console.log("Username:", fullName);
+            console.log("Email:", email);
+            console.log("Password:", password);
+            console.log("Role:", role);
+
+    const userData = {
+        username: fullName,
+        email: email,
+        password: password,
+        role: role
+    };
+
+    // Send the registration data as JSON
+    fetch("/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Registration successful!");
+            window.location.href = "/login"; // Redirect to login page
+        } else {
+            alert("Registration failed: " + data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+
+
+
+
+
+    </script>
+
+</body>
+</html>
