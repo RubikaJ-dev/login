@@ -344,7 +344,11 @@
                              }
                          }
                      }
-
+ function logout() {
+        console.log("Logout clicked");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
 
         </script>
 

@@ -158,6 +158,11 @@
       alert("Error loading employee data.");
     });
   });
+       function logout() {
+        console.log("Logout clicked");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
     </script>
   </main>
 </body>

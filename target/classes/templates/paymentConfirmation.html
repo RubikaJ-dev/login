@@ -9,6 +9,12 @@
 <h1>Payment Confirmation</h1>
 <p>Payment Order ID: <span th:text="${orderId}"></span></p>
 <!-- Add more details related to the payment as needed -->
-
+<script>
+    function logout() {
+       console.log("Logout clicked");
+       localStorage.removeItem("token");
+       window.location.href = "/login";
+   }
+</script>
 </body>
 </html>

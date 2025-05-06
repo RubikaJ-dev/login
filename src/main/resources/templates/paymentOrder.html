@@ -29,7 +29,11 @@
     const rzp = new Razorpay(options);
     rzp.open();
 }
-
+ function logout() {
+        console.log("Logout clicked");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
 </script>
 
 </body>

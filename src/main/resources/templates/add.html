@@ -208,6 +208,11 @@
       alert("An error occurred while adding the employee.");
     });
   });
+   function logout() {
+        console.log("Logout clicked");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
 </script>
 </body>
 </html>

@@ -30,10 +30,22 @@
                 <a class="flex items-center p-2 text-gray-700 hover:bg-green-100 rounded" href="/admin/pay">
                     <span class="mr-2">💰</span> Salary
                 </a>
+                <!-- Logout -->
+                <button onclick="logout()" class="flex items-center w-full p-2 text-red-600 hover:bg-red-100 rounded transition-all">
+                    <span class="mr-2">🚪</span> Logout
+                </button>
+
             </nav>
         </div>
     </aside>
 </div>
+<script>
+    // JS logout example (in HTML or JS file)
+function logout() {
+    localStorage.removeItem("token"); // or sessionStorage
+    window.location.href = "/login"; // redirect
+}
 
+</script>
 </body>
 </html>
