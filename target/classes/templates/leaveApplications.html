@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Leave Application</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -13,27 +13,27 @@
 <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
     <h1 class="text-3xl font-bold text-center mb-6">Leave Application</h1>
 
-    <form id="leave-form" class="space-y-6">
+    <form class="space-y-6" id="leave-form">
 
         <!-- Employee Details -->
         <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="employee-name" class="block text-gray-600">Employee Name</label>
-                <input type="text" id="employee-name" name="employee-name" required placeholder="Enter your name"
-                       class="w-full p-3 border border-gray-300 rounded-md">
+                <label class="block text-gray-600" for="employee-name">Employee Name</label>
+                <input class="w-full p-3 border border-gray-300 rounded-md" id="employee-name" name="employee-name" placeholder="Enter your name" required
+                       type="text">
             </div>
             <div>
-                <label for="employee-id" class="block text-gray-600">Employee ID</label>
-                <input type="text" id="employee-id" name="employee-id" required placeholder="Enter your ID"
-                       class="w-full p-3 border border-gray-300 rounded-md">
+                <label class="block text-gray-600" for="employee-id">Employee ID</label>
+                <input class="w-full p-3 border border-gray-300 rounded-md" id="employee-id" name="employee-id" placeholder="Enter your ID" required
+                       type="text">
             </div>
         </div>
 
         <!-- Leave Type -->
         <div>
-            <label for="leave-type" class="block text-gray-600">Leave Type</label>
-            <select id="leave-type" name="leave-type" required class="w-full p-3 border border-gray-300 rounded-md">
-                <option value="" disabled selected>Select Leave Type</option>
+            <label class="block text-gray-600" for="leave-type">Leave Type</label>
+            <select class="w-full p-3 border border-gray-300 rounded-md" id="leave-type" name="leave-type" required>
+                <option disabled selected value="">Select Leave Type</option>
                 <option value="sick">Sick Leave</option>
                 <option value="casual">Casual Leave</option>
                 <option value="vacation">Vacation Leave</option>
@@ -45,25 +45,25 @@
         <!-- Leave Dates -->
         <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="start-date" class="block text-gray-600">Leave Start Date</label>
-                <input type="date" id="start-date" name="start-date" required class="w-full p-3 border border-gray-300 rounded-md">
+                <label class="block text-gray-600" for="start-date">Leave Start Date</label>
+                <input class="w-full p-3 border border-gray-300 rounded-md" id="start-date" name="start-date" required type="date">
             </div>
             <div>
-                <label for="end-date" class="block text-gray-600">Leave End Date</label>
-                <input type="date" id="end-date" name="end-date" required class="w-full p-3 border border-gray-300 rounded-md">
+                <label class="block text-gray-600" for="end-date">Leave End Date</label>
+                <input class="w-full p-3 border border-gray-300 rounded-md" id="end-date" name="end-date" required type="date">
             </div>
         </div>
 
         <!-- Reason for Leave -->
         <div>
-            <label for="leave-reason" class="block text-gray-600">Reason for Leave</label>
-            <textarea id="leave-reason" name="leave-reason" rows="4" placeholder="Enter the reason for your leave"
-                      class="w-full p-3 border border-gray-300 rounded-md"></textarea>
+            <label class="block text-gray-600" for="leave-reason">Reason for Leave</label>
+            <textarea class="w-full p-3 border border-gray-300 rounded-md" id="leave-reason" name="leave-reason" placeholder="Enter the reason for your leave"
+                      rows="4"></textarea>
         </div>
 
         <!-- Submit Button -->
         <div class="text-center">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition" type="submit">
                 Submit Application
             </button>
         </div>
