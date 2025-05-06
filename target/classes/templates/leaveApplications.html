@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 min-h-screen p-8">
+<div class="flex h-screen">
+<div th:replace="usersidebar :: userSidebarFragment"></div>
+<!-- Leave Application Form -->
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <h1 class="text-3xl font-bold text-center mb-6">Leave Application</h1>
+
+    <form id="leave-form" class="space-y-6">
+
+        <!-- Employee Details -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label for="employee-name" class="block text-gray-600">Employee Name</label>
+                <input type="text" id="employee-name" name="employee-name" required placeholder="Enter your name"
+                       class="w-full p-3 border border-gray-300 rounded-md">
+            </div>
+            <div>
+                <label for="employee-id" class="block text-gray-600">Employee ID</label>
+                <input type="text" id="employee-id" name="employee-id" required placeholder="Enter your ID"
+                       class="w-full p-3 border border-gray-300 rounded-md">
+            </div>
+        </div>
+
+        <!-- Leave Type -->
+        <div>
+            <label for="leave-type" class="block text-gray-600">Leave Type</label>
+            <select id="leave-type" name="leave-type" required class="w-full p-3 border border-gray-300 rounded-md">
+                <option value="" disabled selected>Select Leave Type</option>
+                <option value="sick">Sick Leave</option>
+                <option value="casual">Casual Leave</option>
+                <option value="vacation">Vacation Leave</option>
+                <option value="maternity">Maternity Leave</option>
+                <option value="paternity">Paternity Leave</option>
+            </select>
+        </div>
+
+        <!-- Leave Dates -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label for="start-date" class="block text-gray-600">Leave Start Date</label>
+                <input type="date" id="start-date" name="start-date" required class="w-full p-3 border border-gray-300 rounded-md">
+            </div>
+            <div>
+                <label for="end-date" class="block text-gray-600">Leave End Date</label>
+                <input type="date" id="end-date" name="end-date" required class="w-full p-3 border border-gray-300 rounded-md">
+            </div>
+        </div>
+
+        <!-- Reason for Leave -->
+        <div>
+            <label for="leave-reason" class="block text-gray-600">Reason for Leave</label>
+            <textarea id="leave-reason" name="leave-reason" rows="4" placeholder="Enter the reason for your leave"
+                      class="w-full p-3 border border-gray-300 rounded-md"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition">
+                Submit Application
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+<script>
+    document.getElementById('leave-form').addEventListener('submit', function(event) {
+       event.preventDefault(); // Prevent default form submission
+
+       const token = localStorage.getItem("Token");
+       if (!token) {
+           alert('No token found. Please log in.');
+           return;
+       }
+
+       // Gather form data
+       const formData = {
+           employeeName: document.getElementById('employee-name').value,
+           employeeId: document.getElementById('employee-id').value,
+           leaveType: document.getElementById('leave-type').value,
+           startDate: document.getElementById('start-date').value,
+           endDate: document.getElementById('end-date').value,
+           leaveReason: document.getElementById('leave-reason').value
+       };
+
+       fetch('http://localhost:8080/user/submit', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json',
+               'Authorization': 'Bearer ' + token
+           },
+           body: JSON.stringify(formData)
+       })
+       .then(response => {
+           if (response.ok) {
+               alert('Leave application submitted successfully!');
+               // Optionally clear form or redirect
+               document.getElementById('leave-form').reset();
+           } else {
+               throw new Error('Failed to submit application');
+           }
+       })
+       .catch(error => {
+           console.error('Error:', error);
+           alert('Error submitting leave application. Please try again.');
+       });
+   });
+</script>
+
+</body>
+</html>
