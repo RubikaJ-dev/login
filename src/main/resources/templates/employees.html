@@ -1,93 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>My Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-green-100 min-h-screen p-6">
-    <div th:replace="sidebar :: sidebarFragment"></div>  
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-4xl font-bold">My Profile</h1>
-            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md">
-                🔒 Logout
-            </button>
-        </div>
+<body class="bg-blue-100 min-h-screen p-6">
+<div class="flex h-screen">
 
-        <!-- Profile Info -->
-        <div class="flex justify-between items-center mb-8">
-            <img alt="Profile Picture" class="rounded-full shadow-md" src="https://via.placeholder.com/100">
-            <div class="ml-6">
-                <h2 class="text-2xl font-bold">John Doe</h2>
-                <p class="text-gray-600">Software Engineer</p>
-                <p class="text-gray-500">Employee ID: EMP12345</p>
+    <!-- Thymeleaf Sidebar Fragment -->
+    <div th:replace="usersidebar :: userSidebarFragment"></div>
+
+    <!-- Profile content -->
+    <div class="mx-auto bg-white rounded-2xl p-10 flex-1 overflow-y-auto">
+        <h1 class="text-3xl font-bold mb-6">My Profile</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div><label class="text-gray-700">Name</label><p autocomplete="username" class="font-semibold"  id="employeeName"></p></div>
+            <div><label class="text-gray-700">Email</label><p class="font-semibold" id="employeeEmail"></p></div>
+            <div><label class="text-gray-700">Designation</label><p class="font-semibold" id="employeeJobRole"></p></div>
+            <div><label class="text-gray-700">Age</label><p class="font-semibold" id="employeeAge"></p></div>
+            <div><label class="text-gray-700">Department</label><p class="font-semibold" id="employeeDepartment"></p></div>
+            <div><label class="text-gray-700">Date of Birth</label><p class="font-semibold" id="employeeDob"></p></div>
+            <div><label class="text-gray-700">Date of Joining</label><p class="font-semibold" id="employeeDoj"></p></div>
+            <div><label class="text-gray-700">Primary Phone</label><p class="font-semibold" id="employeePhone"></p></div>
+            <div><label class="text-gray-700">Secondary Phone</label><p class="font-semibold" id="employeeSecondaryPhone"></p></div>
+            <div><label class="text-gray-700">Address</label><p class="font-semibold" id="employeeAddress"></p></div>
+            <div><label class="text-gray-700">Highest Degree</label><p class="font-semibold" id="employeeDegree"></p></div>
+            <div><label class="text-gray-700">Previous Company</label><p class="font-semibold" id="employeePreviousCompany"></p></div>
+            <div><label class="text-gray-700">Current CTC</label><p class="font-semibold" id="employeeCtc"></p></div>
+            <div><label class="text-gray-700">Certification</label>
+                <a class="text-blue-600 underline" href="#" id="certificationLink">Download</a>
             </div>
         </div>
-
-        <!-- Personal Information Form -->
-        <div class="bg-green-50 p-6 rounded-xl mb-8 shadow-md">
-            <h2 class="text-2xl font-bold mb-4">Personal Information</h2>
-            <form action="#" method="POST">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-gray-700" for="first-name">First Name</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="first-name" name="first-name" type="text" value="John">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="last-name">Last Name</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="last-name" name="last-name" type="text" value="Doe">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="email">Email Address</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="email" name="email" type="email" value="johndoe@email.com">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="phone">Phone Number</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="phone" name="phone" type="tel" value="9876543210">
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-end">
-                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md" type="submit">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Job Information -->
-        <div class="bg-green-50 p-6 rounded-xl mb-8 shadow-md">
-            <h2 class="text-2xl font-bold mb-4">Job Information</h2>
-            <form action="#" method="POST">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-gray-700" for="department">Department</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="department" name="department" type="text" value="Software Development">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="position">Position</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="position" name="position" type="text" value="Software Engineer">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="join-date">Join Date</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="join-date" name="join-date" type="date" value="2022-03-15">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700" for="salary">Salary</label>
-                        <input class="w-full mt-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" id="salary" name="salary" type="text" value="₹ 50,000">
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-end">
-                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md" type="submit">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-
     </div>
+</div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+
+        fetch("http://localhost:8080/user/profile", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to fetch profile data");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("employeeName").textContent = data.name;
+            document.getElementById("employeeEmail").textContent = data.email;
+            document.getElementById("employeeJobRole").textContent = data.job_role;
+            document.getElementById("employeeAge").textContent = data.age;
+            document.getElementById("employeeDepartment").textContent = data.department;
+            document.getElementById("employeeDob").textContent = data.date_of_birth;
+            document.getElementById("employeeDoj").textContent = data.date_of_join;
+            document.getElementById("employeePhone").textContent = data.phone_number;
+            document.getElementById("employeeSecondaryPhone").textContent = data.secondary_phone_number;
+
+            document.getElementById("employeeAddress").textContent =
+                (data.address?.street || '') + ', ' +
+                (data.address?.city || '') + ', ' +
+                (data.address?.state || '');
+
+            document.getElementById("employeeDegree").textContent = data.degree?.degree_name || 'N/A';
+            document.getElementById("employeePreviousCompany").textContent = data.previousEmployment?.company_name || 'N/A';
+            document.getElementById("employeeCtc").textContent = '₹ ' + data.ctc;
+            document.getElementById("certificationLink").href = '/certifications/' + data.id;
+        })
+        .catch(error => {
+            console.error("Error fetching profile:", error);
+            alert("Error fetching profile. Please log in again.");
+            window.location.href = "/user-login";
+        });
+    });
+</script>
 </body>
 </html>

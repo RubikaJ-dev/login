@@ -54,11 +54,5 @@ public class LoginController {
     }
 
 
-
-    // User Dashboard page
-    @GetMapping("/user-dashboard")
-    public String showUserDashboard() {
-        return "usersidebar"; // Thymeleaf page for user dashboard
-    }
 }
 

@@ -5,8 +5,9 @@
     <title>Employee Payslip</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-green-100 min-h-screen p-8">
-    <div th:fragment="sidebarFragment"></div>
+<body class="bg-blue-100 min-h-screen p-8">
+<div class="flex h-screen">
+<div th:replace="usersidebar :: userSidebarFragment"></div>
     <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <!-- Payslip Header -->
         <div class="flex justify-between items-center border-b pb-4 mb-6">
@@ -91,6 +92,48 @@
             </button>
         </div>
     </div>
+</div>
+<script>
 
+     document.addEventListener('DOMContentLoaded', () => {
+         const token = localStorage.getItem("token");
+         const payslipContainer = document.getElementById('payslip-container');
+         const loadingIndicator = document.getElementById('loading');
+
+         if (!token) {
+             alert('No token found. Please log in.');
+             return;
+         }
+
+         fetch('http://localhost:8080/user/payslip', {
+             method: 'GET',
+             headers: {
+                 'Authorization': `Bearer ${token}`,
+                 'Accept': 'text/html'
+             }
+         })
+         .then(response => {
+             if (!response.ok) {
+                 if (response.status === 401 || response.status === 403) {
+                     throw new Error('Unauthorized or Forbidden');
+                 }
+                 throw new Error('Failed to fetch payslip');
+             }
+             return response.text();
+         })
+         .then(html => {
+             payslipContainer.innerHTML = html;
+         })
+         .catch(error => {
+             console.error('Error:', error);
+             alert('Access Denied or error loading payslip. Please log in again.');
+         })
+         .finally(() => {
+             if (loadingIndicator) loadingIndicator.style.display = 'none';
+         });
+     });
+</script>
+
+    </script>
 </body>
 </html>

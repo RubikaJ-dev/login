@@ -5,29 +5,34 @@
     <title>Advanced Employee Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-green-100 min-h-screen p-6">
-    <div th:replace="sidebar :: sidebarFragment"></div>  
-    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-10">
+<body class="bg-blue-100 min-h-screen p-6">
+    <div class="flex h-screen">
+<!-- Include Sidebar Fragment -->
+<div th:replace="usersidebar :: userSidebarFragment"></div>
+
+
+
+<div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-10">
              
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-4xl font-bold">Employee Dashboard</h1>
-            <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-full shadow-md">
-                🔒 Logout
-            </button>
+
         </div>
 
         <!-- Profile Section -->
-        <div class="bg-green-50 p-6 rounded-xl mb-8 flex items-center space-x-6 shadow-md">
-            <img alt="Profile Picture" class="rounded-full" src="https://via.placeholder.com/80">
-            <div>
-                <h2 class="text-2xl font-bold">John Doe</h2>
-                <p class="text-gray-600">Software Engineer</p>
-                <p class="text-gray-500 text-sm">Employee ID: EMP12345</p>
-            </div>
+    <!-- Profile Section (User Login Info) -->
+    <div class="bg-green-50 p-6 rounded-xl mb-8 flex items-center space-x-6 shadow-md hidden" id="profileSection">
+        <img alt="Profile Picture" class="rounded-full" src="https://via.placeholder.com/80">
+        <div>
+            <h2 class="text-2xl font-bold" id="userName"></h2>
+            <p class="text-gray-600" id="userRole"></p>
+            <p class="text-gray-500 text-sm" id="userId"></p>
         </div>
+    </div>
 
-        <!-- Actions Grid -->
+
+    <!-- Actions Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- View Profile -->
             <div class="bg-white border hover:border-green-400 p-6 rounded-2xl shadow-md flex flex-col items-center text-center hover:shadow-lg transition">
@@ -71,5 +76,55 @@
         </div>
 
     </div>
+    </div>
+<script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+      const token = localStorage.getItem("token");
+      console.log("Token:", token);
+
+      fetch("http://localhost:8080/api/user/userdata", {
+          method: "GET",
+          headers: {
+              "Authorization": "Bearer " + token,
+              "Content-Type": "application/json"
+          }
+      })
+      .then(response => {
+          if (response.status === 401) {
+              alert("Session expired. Please log in again.");
+              window.location.href = "/user-login";
+              return;
+          }
+          if (!response.ok) {
+              throw new Error("HTTP status " + response.status);
+          }
+          return response.json(); // <- Only here do we parse JSON
+      })
+      .then(data => {
+          console.log("User data:", data);
+
+          const profileSection = document.getElementById("profileSection");
+          profileSection.classList.remove("hidden");
+
+          document.getElementById("userName").textContent = data.username || "N/A";
+          document.getElementById("userRole").textContent = data.role || "N/A";
+          document.getElementById("userId").textContent = "Employee ID: " + (data.id || "N/A");
+      })
+      .catch(error => {
+          console.error("Error:", error);
+      });
+
+      // Logout button
+      const logoutButton = document.querySelector("button");
+      if (logoutButton) {
+          logoutButton.addEventListener("click", function () {
+              localStorage.removeItem("token");
+              window.location.href = "/user-login";
+          });
+      }
+  });
+
+    </script>
 </body>
 </html>

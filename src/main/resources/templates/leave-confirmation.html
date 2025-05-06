@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Leave Application Confirmation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 min-h-screen p-8">
+<div th:replace="usersidebar :: userSidebarFragment"></div>
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <h1 class="text-3xl font-bold text-center mb-6">Leave Application Submitted</h1>
+
+    <h2 class="text-2xl font-semibold mb-4">Your Leave Application Details:</h2>
+
+    <div class="space-y-4" id="leave-details">
+        <p><strong>Employee Name:</strong> <span id="employeeName">Loading...</span></p>
+        <p><strong>Employee ID:</strong> <span id="employeeId">Loading...</span></p>
+        <p><strong>Leave Type:</strong> <span id="leaveType">Loading...</span></p>
+        <p><strong>Leave Period:</strong> <span id="startDate">Loading...</span> to <span id="endDate">Loading...</span></p>
+        <p><strong>Reason:</strong> <span id="leaveReason">Loading...</span></p>
+    </div>
+
+    <div class="text-center mt-8">
+        <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-lg transition" href="/leave/apply">
+            Apply for Another Leave
+        </a>
+    </div>
+</div>
+
+<script>
+    const token = localStorage.getItem("Token");
+
+    if (!token) {
+        alert("You are not authorized. Please log in.");
+        window.location.href = "/login";
+    } else {
+        fetch("http://localhost:8080/user/leave", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Unauthorized or error fetching data");
+            }
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById("employeeName").textContent = data.employeeName;
+            document.getElementById("employeeId").textContent = data.employeeId;
+            document.getElementById("leaveType").textContent = data.leaveType;
+            document.getElementById("startDate").textContent = data.startDate;
+            document.getElementById("endDate").textContent = data.endDate;
+            document.getElementById("leaveReason").textContent = data.leaveReason;
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error loading application details. Try again.");
+        });
+    }
+</script>
+
+</body>
+</html>
