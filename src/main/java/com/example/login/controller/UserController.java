@@ -1,6 +1,7 @@
 package com.example.login.controller;
 
 import com.example.login.Entity.LeaveApplication;
+import com.example.login.repository.EmployeeRepository;
 import com.example.login.services.EmployeeService;
 import com.example.login.services.LeaveService;
 import com.example.login.services.LeaveServiceImplementation;
@@ -39,17 +40,20 @@ public class UserController {
         return "payslip";  // This directly renders the payslip.html template
     }
 
-    @GetMapping("/apply")
-    public String showLeaveApplicationForm() {
-        return "leaveApplications";  // Return the HTML page (Thymeleaf template)
-    }
+@Autowired
+private EmployeeRepository employeeRepository;
 
-    // POST request to submit the leave application form
-    @PostMapping("/submit")
-    public String submitLeaveApplication(@ModelAttribute LeaveApplication leaveApplication) {
-        leaveService.saveLeaveApplication(leaveApplication);
-        return "redirect:/leave-confirmation";
+    @GetMapping("/apply")
+    public String showLeaveApplicationForm(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        model.addAttribute("employee", userDetails);  // Pass the logged-in user to the model
+        return "leaveApplications";  // Thymeleaf template
     }
+    // POST request to submit the leave application form
+//    @PostMapping("/submit")
+//    public String submitLeaveApplication(@ModelAttribute LeaveApplication leaveApplication) {
+//        leaveService.saveLeaveApplication(leaveApplication);
+//        return "redirect:/leave-confirmation";
+//    }
 //    @GetMapping("/leave/latest")
 //    @ResponseBody  // Tells Spring to return JSON instead of a view
 //    public ResponseEntity<LeaveApplication> getLatestLeaveApplication(@AuthenticationPrincipal UserDetails userDetails) {

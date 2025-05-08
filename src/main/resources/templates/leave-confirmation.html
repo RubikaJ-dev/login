@@ -14,11 +14,11 @@
     <h2 class="text-2xl font-semibold mb-4">Your Leave Application Details:</h2>
 
     <div class="space-y-4" id="leave-details">
-        <p><strong>Employee Name:</strong> <span id="employeeName">Loading...</span></p>
-        <p><strong>Employee ID:</strong> <span id="employeeId">Loading...</span></p>
-        <p><strong>Leave Type:</strong> <span id="leaveType">Loading...</span></p>
-        <p><strong>Leave Period:</strong> <span id="startDate">Loading...</span> to <span id="endDate">Loading...</span></p>
-        <p><strong>Reason:</strong> <span id="leaveReason">Loading...</span></p>
+        <p><strong>Employee Name:</strong> <span id="employee_name">Loading...</span></p>
+        <p><strong>Employee ID:</strong> <span id="employee_id">Loading...</span></p>
+        <p><strong>Leave Type:</strong> <span id="leave_type">Loading...</span></p>
+        <p><strong>Leave Period:</strong> <span id="start_date">Loading...</span> to <span id="end_date">Loading...</span></p>
+        <p><strong>Reason:</strong> <span id="leave_reason">Loading...</span></p>
     </div>
 
     <div class="text-center mt-8">
@@ -48,12 +48,12 @@
             return res.json();
         })
         .then(data => {
-            document.getElementById("employeeName").textContent = data.employeeName;
-            document.getElementById("employeeId").textContent = data.employeeId;
-            document.getElementById("leaveType").textContent = data.leaveType;
-            document.getElementById("startDate").textContent = data.startDate;
-            document.getElementById("endDate").textContent = data.endDate;
-            document.getElementById("leaveReason").textContent = data.leaveReason;
+            document.getElementById("employee_name").textContent = data.employee_name;
+            document.getElementById("employee_id").textContent = data.employee_id;
+            document.getElementById("leave_type").textContent = data.leave_type;
+            document.getElementById("start_date").textContent = data.start_date;
+            document.getElementById("end_date").textContent = data.end_date;
+            document.getElementById("leave_reason").textContent = data.leave_reason;
         })
         .catch(err => {
             console.error(err);

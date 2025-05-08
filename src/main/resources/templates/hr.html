@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>HR Manager Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-100 min-h-screen p-6">
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
+    <h1 class="text-3xl font-bold text-center mb-6">HR Manager Dashboard</h1>
+
+    <!-- Task List -->
+    <ul class="space-y-4">
+        <li class="flex items-center space-x-2">
+            <span class="text-green-500 text-lg">✅</span>
+            <span class="text-lg">Manage Employee Records</span>
+        </li>
+        <li class="flex items-center space-x-2">
+            <span class="text-green-500 text-lg">✅</span>
+            <span class="text-lg">Manage Leave Policies</span>
+        </li>
+        <li class="flex items-center space-x-2">
+            <span class="text-green-500 text-lg">✅</span>
+            <span class="text-lg">Handle Payroll & Attendance</span>
+        </li>
+        <li class="flex items-center space-x-2">
+            <span class="text-green-500 text-lg">✅</span>
+            <span class="text-lg">Create HR Announcements</span>
+        </li>
+    </ul>
+
+    <!-- Example of Protected Data Fetch -->
+    <div class="mt-6" id="employeeRecords">
+        <h2 class="text-xl font-semibold mb-2">Employee Records</h2>
+        <ul id="employeeList">
+            <!-- Employee data will be populated here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Function to fetch employee records using the Authorization Bearer token
+    async function fetchEmployeeRecords() {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("You are not logged in!");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/employee/records", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` // Add the Bearer token here
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const employeeList = document.getElementById("employeeList");
+
+          // Clear any previous data
+          employeeList.innerHTML = '';
+
+          // Populate the employee list
+          data.forEach(employee => {
+            const li = document.createElement("li");
+            li.textContent = `Name: ${employee.name}, Position: ${employee.position}`;
+            employeeList.appendChild(li);
+          });
+        } else {
+          const errorText = await response.text();
+          alert("Failed to fetch employee records: " + errorText);
+        }
+      } catch (error) {
+        console.error("Error fetching employee records:", error);
+        alert("An error occurred while fetching employee records.");
+      }
+    }
+
+    // Fetch the employee records when the page loads
+    fetchEmployeeRecords();
+</script>
+
+</body>
+</html>

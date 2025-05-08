@@ -26,20 +26,20 @@ private LeaveRepository leaveRepository;
 //    @Override
 //    public LeaveApplication getLatestLeaveApplication(int employeeId) {
 //        LeaveApplication leave1 = new LeaveApplication();
-//        leave1.setEmployeeId(Integer.parseInt("123"));
-//        leave1.setEmployeeName("John Doe");
-//        leave1.setLeaveType("Sick Leave");
-//        leave1.setStartDate("2025-04-01");
-//        leave1.setEndDate("2025-04-05");
-//        leave1.setLeaveReason("Personal illness");
+//        leave1.setEmployee_id(Integer.parseInt("123"));
+//        leave1.setEmployee_name("John Doe");
+//        leave1.setLeave_type("Sick Leave");
+//        leave1.setStart_date("2025-04-01");
+//        leave1.setEnd_date("2025-04-05");
+//        leave1.setLeave_reason("Personal illness");
 //
 //        LeaveApplication leave2 = new LeaveApplication();
-//        leave2.setEmployeeId(Integer.parseInt("EMP123"));
-//        leave2.setEmployeeName("John Doe");
-//        leave2.setLeaveType("Vacation Leave");
-//        leave2.setStartDate("2025-05-01");
-//        leave2.setEndDate("2025-05-07");
-//        leave2.setLeaveReason("Family trip");
+//        leave2.setEmployee_id(Integer.parseInt("EMP123"));
+//        leave2.setEmployee_name("John Doe");
+//        leave2.setLeave_type("Vacation Leave");
+//        leave2.setStart_date("2025-05-01");
+//        leave2.setEnd_date("2025-05-07");
+//        leave2.setLeave_reason("Family trip");
 //
 //        // Simulating all leave applications (replace with real data retrieval logic)
 //        List<LeaveApplication> allLeaveApplications = new ArrayList<>();
@@ -49,8 +49,8 @@ private LeaveRepository leaveRepository;
 //        // Logic to find the most recent leave application for the given employee
 //        LeaveApplication latestLeave = null;
 //        for (LeaveApplication leave : allLeaveApplications) {
-//            if (leave.getEmployeeId()) {
-//                if (latestLeave == null || leave.getStartDate().compareTo(latestLeave.getStartDate()) > 0) {
+//            if (leave.getEmployee_id()) {
+//                if (latestLeave == null || leave.getStart_date().compareTo(latestLeave.getStart_date()) > 0) {
 //                    latestLeave = leave;
 //                }
 //            }

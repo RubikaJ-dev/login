@@ -161,7 +161,7 @@
                      // Function to remove a row
                      function removeRow(button) {
              let row = button.closest("tr");
-             let employeeId = row.cells[0].textContent; // Get employee ID from the first cell
+             let employee_id = row.cells[0].textContent; // Get employee ID from the first cell
 
              Swal.fire({
                  title: "Are you sure?",
@@ -174,7 +174,7 @@
              }).then((result) => {
                  if (result.isConfirmed) {
                      // Send DELETE request to the backend
-                     fetch(`/api/admin/employees/${employeeId}`, {
+                     fetch(`/api/admin/employees/${employee_id}`, {
                          method: 'DELETE',
                          headers: {
         "Authorization": "Bearer " + token

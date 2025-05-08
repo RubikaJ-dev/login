@@ -1,67 +1,97 @@
 package com.example.login.Entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 @Entity
+@Table(name = "leave_application")
 public class LeaveApplication {
 
-    private String employeeName;
-    @Id
-    private int employeeId;
-    private String leaveType;
-    private Date startDate;
-    private Date endDate;
-    private String leaveReason;
-
     // Getters and Setters
-    public String getEmployeeName() {
-        return employeeName;
+
+    private String employee_name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id",  referencedColumnName = "id") // Foreign key in address table
+    @JsonBackReference
+    private Employee employee;
+
+    private String leave_type;
+    private Date start_date;
+    private Date end_date;
+    private String leave_reason;
+    @Transient
+    private int employee_id;
+
+    public int getId() {
+        return id;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public String getEmployee_name() {
+        return employee_name;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee_name(String employee_name) {
+        this.employee_name = employee_name;
     }
 
-    public String getLeaveType() {
-        return leaveType;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setLeaveType(String leaveType) {
-        this.leaveType = leaveType;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public int getEmployee_id() {
+        return employee_id;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setEmployee_id(int employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getLeave_type() {
+        return leave_type;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setLeave_type(String leave_type) {
+        this.leave_type = leave_type;
     }
 
-    public String getLeaveReason() {
-        return leaveReason;
+    public Date getStart_date() {
+        return start_date;
     }
 
-    public void setLeaveReason(String leaveReason) {
-        this.leaveReason = leaveReason;
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
     }
+
+    public Date getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
+
+    public String getLeave_reason() {
+        return leave_reason;
+    }
+
+    public void setLeave_reason(String leave_reason) {
+        this.leave_reason = leave_reason;
+    }
+
 }
