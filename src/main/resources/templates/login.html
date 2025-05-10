@@ -43,7 +43,7 @@
 <form action="/user-login" method="get" style="display: inline;">
   <button type="submit" class="button">User Login</button>
 </form>
-
+<p class="text-sm text-center mt-4">Don't have an account? <a class="text-blue-500" href="/">Register</a></p>
 <!-- Display login error message -->
 <div th:if="${param.error}">
   <p style="color:red;">Invalid username or password. Please try again.</p>

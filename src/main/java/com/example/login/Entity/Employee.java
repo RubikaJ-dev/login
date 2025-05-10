@@ -34,14 +34,14 @@ public class Employee {
     private String email;
     private String department;
    private String certificationPath;
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     @JsonManagedReference
     private Address address;
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Degree degree;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private PreviousEmployment previousEmployment;
     public String getDepartment() {

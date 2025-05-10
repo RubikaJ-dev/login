@@ -38,10 +38,17 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const token = localStorage.getItem("token");
-        console.log("Token:", token);
+    const token = localStorage.getItem("token");
+ if (!token) {
+            alert("Session expired. Please log in again.");
+            // window.location.href = "/user-login"; // Uncomment to redirect on session expiry
+            return;
+        }
 
-        fetch("http://localhost:8080/user/profile", {
+const employeeId = localStorage.getItem("employeeId");
+ console.log("Token:", token);
+
+        fetch(`http://localhost:8080/api/user/profile`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token,
@@ -76,7 +83,7 @@
         .catch(error => {
             console.error("Error fetching profile:", error);
             alert("Error fetching profile. Please log in again.");
-            window.location.href = "/user-login";
+<!--            window.location.href = "/user-login";-->
         });
     });
 </script>

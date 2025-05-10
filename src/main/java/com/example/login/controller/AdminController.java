@@ -2,6 +2,8 @@ package com.example.login.controller;
 
 import com.example.login.jwtUtils.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;  // Correct import for Spring MVC Model
 
 import com.example.login.Entity.Address;
@@ -89,7 +91,7 @@ public class AdminController {
                 dob = LocalDate.parse(date_of_birth, formatter);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format. Please use dd-MM-yyyy.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format. Please use yyyy-MM-dd.");
         }
 
         if (dob == null) {
@@ -114,20 +116,23 @@ public class AdminController {
         employee.setCtc(ctc);
 
 
+
                    Degree degree1 = new Degree();
-        degree1.setDegree_name(formData.get(degreeName));
+        degree1.setDegree_name(degreeName);
         degree1.setEmployee(employee);
+        employee.setDegree(degree1);
 
         PreviousEmployment previousEmployment1 = new PreviousEmployment();
         previousEmployment1.setCompany_name(companyName);
         previousEmployment1.setEmployee(employee);
+        employee.setPreviousEmployment(previousEmployment1);
 
         Address address1 =new Address();
         address1.setStreet(street);
         address1.setCity(city);
         address1.setState(state);
         address1.setEmployee(employee);
-
+        employee.setAddress(address1);
         // Save the employee data
         adminService.createEmployee(employee);
 
@@ -135,7 +140,7 @@ public class AdminController {
         if (!file.isEmpty()) {
             try {
                 // Define the upload directory
-                String uploadDir = "uploads/";
+                String uploadDir = "certs/";
 
                 // Create the directory if it doesn't exist
                 java.nio.file.Path path = Paths.get(uploadDir + file.getOriginalFilename());
@@ -165,15 +170,22 @@ public class AdminController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditPage(@PathVariable int id, Model model) {
-        Employee employee = adminService.findEmployeeById(id); // Fetch the employee by ID
+    public String showEditPage(@PathVariable int id, @NotNull Model model) {
+        Employee employee = adminService.findEmployeeById(id);
+        Address address = adminService.findEmployeeById(id).getAddress();
+        employee.setAddress(address);// Fetch the employee by ID
+        Degree degree = adminService.findEmployeeById(id).getDegree();
+        employee.setDegree(degree);
+        PreviousEmployment previousEmployment =adminService.findEmployeeById(id).getPreviousEmployment();
+        employee.setPreviousEmployment(previousEmployment);
         model.addAttribute("employee", employee); // Add employee object to the model
         return "edit";
     }
 
 
-    @PostMapping("/updateEmployee/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
+    @PostMapping(value = "/updateEmployee/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateEmployee(@PathVariable int id, @RequestPart Employee employee,  @RequestPart(value = "file", required = false) MultipartFile file  // File part
+    ) {
         Employee existingEmployee = adminService.findEmployeeById(id);
 
         if (existingEmployee != null) {

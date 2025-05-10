@@ -27,5 +27,5 @@ public interface UserService  {
     Optional<User> getUserByUsername(String username);
 
     User convertDtoToUser(UserDTO userDTO);
-
+    UserDTO convertUserToDto(User user);
 }

@@ -29,9 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String viewProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        model.addAttribute("employee", userDetails);
-
+    public String showProfilePage() {
         return "employees";
     }
 

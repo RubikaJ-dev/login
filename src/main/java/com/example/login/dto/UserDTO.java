@@ -1,9 +1,11 @@
 package com.example.login.dto;
 
 
+import com.example.login.Entity.User;
+
 import java.sql.Timestamp;
 
-public class UserDTO {
+public class UserDTO extends User {
 
     private Long id;
     private String username;

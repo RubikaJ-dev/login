@@ -55,8 +55,8 @@
                     <tr th:each="employee : ${employeeList}">
                         <td class="p-2 text-blue-600" th:text="${employee.id}"></td>
                         <td class="p-2" th:text="${employee.name}"></td>
-                        <td class="p-2" th:text="${employee.jobRole}"></td>
-                        <td class="p-2" th:text="${employee.phone}"></td>
+                        <td class="p-2" th:text="${employee.job_role}"></td>
+                        <td class="p-2" th:text="${employee.phone_number}"></td>
                         <td class="p-2" th:text="${employee.ctc}"></td>
                             <td class="p-2 text-center">
                                 <button onclick="viewRow(this)" class="text-blue-500 px-2"><i class="fas fa-eye"></i></button>
@@ -240,8 +240,8 @@
             html: `
                 <p><strong>ID:</strong> ${data.id}</p>
                 <p><strong>Name:</strong> ${data.name}</p>
-                <p><strong>Job Role:</strong> ${data.job_role}</p>
-                <p><strong>Phone:</strong> ${data.phone_number}</p>
+                <p><strong>Job Role:</strong> ${data.designation}</p>
+                <p><strong>Phone:</strong> ${data.primaryPhone}</p>
                 <p><strong>CTC:</strong> ${data.ctc}</p>
             `,
             icon: "info",

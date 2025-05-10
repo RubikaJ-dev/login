@@ -51,6 +51,7 @@
                          console.log("Response data:", data);
                         localStorage.setItem("token", data.token);
                          console.log("Stored token:", localStorage.getItem("token"));
+<!--                         localStorage.setItem("userEmail", response.email);-->
                         window.location.href = "/user/user-dashboard";
                     } else {
                         const text = await response.text();

@@ -17,6 +17,10 @@ public class Address {
     private String state;
     private String zip_code;
     private String country;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id",  referencedColumnName = "id")
+    @JsonBackReference
+    private Employee employee;
 
     public String getStreet() {
         return street;
@@ -74,8 +78,5 @@ public class Address {
         this.id = id;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id",  referencedColumnName = "id") // Foreign key in address table
-    @JsonBackReference
-    private Employee employee;
+
 }

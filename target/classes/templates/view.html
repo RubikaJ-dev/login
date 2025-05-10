@@ -26,21 +26,21 @@
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Designation</label>
-          <input type="text" th:value="${employee.job_role}"readonly class="mt-1 border p-2 rounded w-full bg-gray-100">
+          <input class="mt-1 border p-2 rounded w-full bg-gray-100" readonly th:value="${employee.job_role}" type="text">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Department</label>
-          <input type="text" th:value="${employee.department}"readonly class="mt-1 border p-2 rounded w-full bg-gray-100">
+          <input class="mt-1 border p-2 rounded w-full bg-gray-100" readonly th:value="${employee.department}" type="text">
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-          <input type="date" th:value="${employee.date_of_birth}" readonly class="mt-1 border p-2 rounded w-full bg-gray-100">
+          <input class="mt-1 border p-2 rounded w-full bg-gray-100" readonly th:value="${#dates.format(employee.date_of_birth, 'yyyy-MM-dd')}" type="date">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Date of Join</label>
-          <input type="date" th:value="${employee.date_of_join}" readonly class="mt-1 border p-2 rounded w-full bg-gray-100">
+          <input class="mt-1 border p-2 rounded w-full bg-gray-100" readonly th:value="${#dates.format(employee.date_of_join, 'yyyy-MM-dd')}" type="date">
         </div>
 
         <div>
@@ -79,7 +79,7 @@
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Previous Company</label>
-          <input type="text" th:value="${previousemployment?.company_name}" readonly class="mt-1 border p-2 rounded w-full bg-gray-100">
+          <input class="mt-1 border p-2 rounded w-full bg-gray-100" readonly th:value="${previousEmployment?.company_name}" type="text">
         </div>
 
         <div>
@@ -100,7 +100,7 @@
     const employee_id = new URLSearchParams(window.location.search).get("id"); // Assuming ?id=123 in URL
 
     if (!token || !employee_id) {
-      alert("Unauthorized or missing employee ID");
+<!--      alert("Unauthorized or missing employee ID");-->
       return;
     }
 
@@ -121,16 +121,16 @@
 
       const fields = [
         { label: "Name", value: data.name },
-        { label: "Designation", value: data.designation },
-        { label: "Department", value: data.department },
-        { label: "Date of Birth", value: data.dateOfBirth },
-        { label: "Date of Join", value: data.dateOfJoin },
-        { label: "Primary Phone", value: data.primaryPhone },
-        { label: "Secondary Phone", value: data.secondaryPhone },
+        { label: "Designation", value: data.job_role },
+        { label: "Department", value: data. department },
+        { label: "Date of Birth", value: data.date_of_birth },
+        { label: "Date of Join", value: data.date_of_join },
+        { label: "Primary Phone", value: data.phone_number },
+        { label: "Secondary Phone", value: data.secondary_phone_number },
         { label: "Address", value: data.address?.street || "N/A" },
         { label: "City", value: data.address?.city || "N/A" },
         { label: "State", value: data.address?.state || "N/A" },
-        { label: "Highest Degree", value: data.degree?.degree_name || "N/A" },
+        { label: "Highest Degree", value: data. degree?.degree_name || "N/A" },
         { label: "Previous Company", value: data.previousEmployment?.company_name || "N/A" },
         { label: "Current CTC", value: data.ctc }
       ];

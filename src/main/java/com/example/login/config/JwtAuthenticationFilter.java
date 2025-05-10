@@ -37,6 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // Skip JWT filter for public endpoints
+        if (isPublicPath(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
@@ -65,4 +73,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             handlerExceptionResolver.resolveException((HttpServletRequest) request, (HttpServletResponse) response,null,exception);
         }
     }
+    private boolean isPublicPath(String path) {
+        return path.equals("/") ||
+                path.equals("/register") ||
+                path.equals("/login") ||
+                path.startsWith("/auth") ||
+                path.equals("/user-login") ||
+                path.equals("/admin-login") ||
+                path.equals("/favicon.ico");
+    }
+
 }

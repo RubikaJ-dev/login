@@ -1,6 +1,8 @@
 package com.example.login.services;
 
 import com.example.login.Entity.Employee;
+import com.example.login.Entity.User;
+import com.example.login.repository.AddressRepository;
 import com.example.login.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ public class AdminServiceImplementation implements AdminService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     @Override
     public List fetchAllEmployee() {
@@ -33,6 +37,7 @@ public class AdminServiceImplementation implements AdminService {
     @Override
     public Employee createEmployee(Employee employee) {
         Employee result = employeeRepository.save(employee);
+
         return result;
     }
 
@@ -66,6 +71,11 @@ public class AdminServiceImplementation implements AdminService {
             // Save the updated employee
             employeeRepository.save(existingEmployee);
         }
+    }
+
+    @Override
+    public Optional<Employee> findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
     }
 
 

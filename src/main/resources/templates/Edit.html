@@ -103,61 +103,68 @@
      const id = urlParts[urlParts.length - 1];
 
      const formData = new FormData();
+  // Construct employee object
+    const employee = {
+      name: document.getElementById("name").value,
+      job_role: document.getElementById("job_role").value,
+      department: document.getElementById("department").value,
+      date_of_birth: document.getElementById("date_of_birth").value,
+      phone_number: document.getElementById("phone_number").value,
+      secondary_phone_number: document.getElementById("secondary_phone_number").value,
+      ctc: document.getElementById("ctc").value,
+      address: {
+        street: document.getElementById("address.street").value,
+        city: document.getElementById("address.city").value,
+        state: document.getElementById("address.state").value
+      },
+      degree: {
+        degree_name: document.getElementById("degree.degree_name").value
+      },
+      previousEmployment: {
+        company_name: document.getElementById("previousEmployment.company_name").value
+      }
+    };
 
-     // Add all form inputs
-     formData.append("name", document.getElementById("name").value);
-     formData.append("job_role", document.getElementById("job_role").value);
-     formData.append("department", document.getElementById("department").value);
-     formData.append("date_of_birth", document.getElementById("date_of_birth").value);
-     formData.append("phone_number", document.getElementById("phone_number").value);
-     formData.append("secondary_phone_number", document.getElementById("secondary_phone_number").value);
-     formData.append("ctc", document.getElementById("ctc").value);
+    // Append the entire JSON as 'employee' part
+    formData.append("employee", new Blob([JSON.stringify(employee)], { type: 'application/json' }));
 
-     // Nested object fields (if your backend supports dot notation)
-     formData.append("address.street", document.getElementById("address.street").value);
-     formData.append("address.city", document.getElementById("address.city").value);
-     formData.append("address.state", document.getElementById("address.state").value);
+    // File input — assuming one file
+    const fileInput = document.getElementById("certificationPath");
+    if (fileInput && fileInput.files.length > 0) {
+      formData.append("file", fileInput.files[0]);
+    }
 
-     formData.append("degree.degree_name", document.getElementById("degree.degree_name").value);
-     formData.append("previousEmployment.company_name", document.getElementById("previousEmployment.company_name").value);
+    const token = localStorage.getItem("token");
 
-     // File input
-     const certificationFiles = document.getElementById("certificationPath").files;
-     for (let i = 0; i < certificationFiles.length; i++) {
-       formData.append("certificationPath", certificationFiles[i]);
-     }
+    fetch(`http://localhost:8080/admin/updateEmployee/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token
+        // ⚠️ DO NOT manually set Content-Type, let the browser handle it
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to update employee");
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert("Employee updated successfully!");
+        window.location.href = '/admin/employee';
+      })
+      .catch(error => {
+        console.error("Error updating employee:", error);
+        alert("Failed to update employee.");
+      });
+  });
 
-     const token = localStorage.getItem("token");
-
-     fetch(`http://localhost:8080/admin/updateEmployee/${id}`, {
-       method: "POST",
-       headers: {
-         Authorization: "Bearer " + token // ✅ DO NOT set Content-Type manually here
-       },
-       body: formData
-     })
-       .then(response => {
-         if (!response.ok) {
-           throw new Error("Failed to update employee");
-         }
-         return response.json();
-       })
-       .then(data => {
-         alert("Employee updated successfully!");
-         window.location.href = '/admin/employee';
-       })
-       .catch(error => {
-         console.error("Error updating employee:", error);
-         alert("Failed to update employee.");
-       });
-   });
-
-   // Cancel button logic
-   window.cancelEdit = function () {
-     window.location.href = '/admin/employee';
-   };
- });
-  </script>
+  // Cancel button logic
+  window.cancelEdit = function () {
+    window.location.href = '/admin/employee';
+  };
+});
 
 <!--  function logout() {-->
 <!--  console.log("Logout clicked");-->
